@@ -11,6 +11,8 @@ import {
     View,
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/AntDesign';
+
 function App(): React.JSX.Element {
     return (
         <SafeAreaView style={styles.container}>
@@ -28,6 +30,7 @@ function App(): React.JSX.Element {
                 <View style={{ marginTop: 'auto', marginBottom: 'auto' }}>
                     <Text>bell</Text>
                 </View>
+                <Icon name="home" size={30} color="black"/>
             </View>
 
             {/* Search Bar */}
