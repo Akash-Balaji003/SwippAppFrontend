@@ -11,7 +11,12 @@ import {
     View,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function App(): React.JSX.Element {
     return (
@@ -27,10 +32,9 @@ function App(): React.JSX.Element {
                         <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 18 }]}>Ravi Swaminathan</Text>
                     </View>
                 </View>
-                <View style={{ marginTop: 'auto', marginBottom: 'auto' }}>
-                    <Text>bell</Text>
-                </View>
-                <Icon name="home" size={30} color="black"/>
+                <TouchableOpacity>
+                    <FontAwesome name="bell-o" size={30} color="black" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
+                </TouchableOpacity>
             </View>
 
             {/* Search Bar */}
@@ -57,22 +61,18 @@ function App(): React.JSX.Element {
                 <View style={styles.Card}></View>
 
                 <View style={styles.ButtonHolder}>
-                    <View style={styles.Buttons}>
-                        <Text style={[styles.ButtonText, {marginBottom:5}]}>icon</Text>
+                    <TouchableOpacity style={styles.Buttons}>
+                        <EvilIcons name="share-google" size={35} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
+                        <Text style={styles.ButtonText}>Share</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Buttons}>
+                        <AntDesign name="edit" size={32} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
                         <Text style={styles.ButtonText}>Edit</Text>
-                    </View>
-                    <View style={styles.Buttons}>
-                        <Text style={[styles.ButtonText, {marginBottom:5}]}>icon</Text>
-                        <Text style={styles.ButtonText}>Edit</Text>
-                    </View>
-                    <View style={styles.Buttons}>
-                        <Text style={[styles.ButtonText, {marginBottom:5}]}>icon</Text>
-                        <Text style={styles.ButtonText}>Edit</Text>
-                    </View>
-                    <View style={styles.Buttons}>
-                        <Text style={[styles.ButtonText, {marginBottom:5}]}>icon</Text>
-                        <Text style={styles.ButtonText}>Edit</Text>
-                    </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.Buttons}>
+                        <AntDesign name="qrcode" size={32} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
+                        <Text style={styles.ButtonText}>QR</Text>
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.Ad2_Placeholder}>
@@ -85,9 +85,11 @@ function App(): React.JSX.Element {
 
                 {/* Left navigation buttons */}
                 <TouchableOpacity style={styles.NavButton}>
+                    <Feather name="home" size={28} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
                     <Text style={styles.ButtonText}>Home</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.NavButton}>
+                    <Feather name="users" size={28} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
                     <Text style={styles.ButtonText}>Friends</Text>
                 </TouchableOpacity>
 
@@ -96,17 +98,20 @@ function App(): React.JSX.Element {
                     <View style={styles.CircleButton}>
                         <View style={styles.CircleButtonInner}>
                             <TouchableOpacity>
-                                <Text style={styles.ButtonText}>SCAN</Text>
+                                <MaterialCommunityIcons name="qrcode-scan" size={32} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <Text style={[styles.ButtonText, {marginLeft:'auto', marginRight:'auto', marginTop:'7%'}]}>Scan</Text>
                 </View>
 
                 {/* Right navigation buttons */}
                 <TouchableOpacity style={styles.NavButton}>
+                    <Ionicons name="chatbox-ellipses-outline" size={28} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
                     <Text style={styles.ButtonText}>Chat</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.NavButton}>
+                    <Feather name="user" size={28} color="white" style={{ marginTop: 'auto', marginBottom: 'auto' }}/>
                     <Text style={styles.ButtonText}>Profile</Text>
                 </TouchableOpacity>
 
@@ -124,8 +129,7 @@ const styles = StyleSheet.create({
     TopBarNav: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: 'yellow',
-        width: '95%',
+        width: '90%',
         height: '6%',
         marginLeft: 'auto',
         marginRight: 'auto',
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
 
     // Center button container
     CenterButton: {
-        bottom: 20,  // To make it stick out from the navbar
+        bottom: 30,  // To make it stick out from the navbar
         alignSelf: 'center',
     },
 
@@ -194,7 +198,7 @@ const styles = StyleSheet.create({
 
     SeachBar: {
         flexDirection: 'row',
-        width: '93%',
+        width: '90%',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginTop: '3%',
@@ -204,7 +208,7 @@ const styles = StyleSheet.create({
 
     searchInput: {
         color: 'black',
-        height: 55,
+        height: 50,
         width: '100%',
         borderRadius: 15,
         opacity: 0.5,
@@ -216,9 +220,9 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        width: '93%',
+        width: '90%',
         height: '60%',
-        marginTop: '3%',
+        marginTop: '2%',
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: 'grey',
@@ -229,9 +233,9 @@ const styles = StyleSheet.create({
         display:'flex',
         justifyContent:'center',
         alignItems:'center',
-        width: '93%',
-        height: '110%',
-        marginTop: '4.5%',
+        width: '90%',
+        height: '100%',
+        marginTop: '5%',
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: 'grey',
@@ -239,31 +243,30 @@ const styles = StyleSheet.create({
     },
 
     Card: {
-        width: '93%',
-        height: '125%',
+        width: '90%',
+        height: '120%',
         marginTop: '1%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        backgroundColor: 'cyan',
+        backgroundColor: 'grey',
         borderRadius: 15,
     },
 
     YourCard: {
-        width: '93%',
+        width: '90%',
         marginLeft: '4%',
         marginTop: '5%',
     },
 
     ButtonHolder: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 5,
-        width: '93%',
-        height: '43%',
+        justifyContent: 'center',
+        gap: 50,
+        width: '90%',
+        height: '35%',
         marginTop: '3%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        backgroundColor: 'cyan',
         borderRadius: 15,
     },
 
