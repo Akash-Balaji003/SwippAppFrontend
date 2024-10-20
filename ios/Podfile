@@ -16,6 +16,7 @@ end
 
 target 'frontend' do
   config = use_native_modules!
+  pod 'RNScreens', :path => '../node_modules/react-native-screens'
 
   use_react_native!(
     :path => config[:reactNativePath],
