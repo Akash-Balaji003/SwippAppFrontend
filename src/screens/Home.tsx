@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Image,
-    Platform,
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -15,23 +14,28 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import BottomNav from '../components/BottomNav';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
 
 const Home = ({navigation}:HomeProps) => {
+
+    const[text, setText] = useState("Name");
+
+    const Tester = (text: React.SetStateAction<string>) => {
+        setText(text);
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             {/* Top Bar */}
             <View style={styles.TopBarNav}>
                 <View>
                     <Text style={styles.WelcomeText}>Welcome</Text>
-                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>Ravi Swaminathan</Text>
+                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{text}</Text>
                 </View>
                 <TouchableOpacity>
-                    <FontAwesome name="bell-o" size={30} color="black" />
+                    <FontAwesome name="bell-o" size={30} color="black" onPress={() => Tester("Akash")} />
                 </TouchableOpacity>
             </View>
 
@@ -89,7 +93,7 @@ const Home = ({navigation}:HomeProps) => {
 
                 <View style={styles.CardsHolder}>
 
-                    <TouchableOpacity style={styles.Card}>
+                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("ViewCard")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
                                 <Text style={{color: "#0077B6"}}>VIEW</Text> YOUR CARD
@@ -129,32 +133,7 @@ const Home = ({navigation}:HomeProps) => {
             </ScrollView>
 
             {/* Bottom Navigation */}
-            <View style={styles.BottomNav}>
-                <TouchableOpacity style={styles.NavButton}>
-                    <Feather name="home" size={28} color="#444242" />
-                    <Text style={styles.ButtonText}>Home</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.NavButton}>
-                    <Feather name="users" size={28} color="#444242" />
-                    <Text style={styles.ButtonText}>Friends</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={[styles.NavButton]}>
-                    <AntDesign name="qrcode" size={28} color="#0077B6" />
-                    <Text style={[styles.ButtonText, { color: "#0077B6" }]}>Scan</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.NavButton}>
-                    <Ionicons name="chatbox-ellipses-outline" size={28} color="#444242" />
-                    <Text style={styles.ButtonText}>Chat</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.NavButton}>
-                    <Feather name="user" size={28} color="#444242" />
-                    <Text style={styles.ButtonText}>Profile</Text>
-                </TouchableOpacity>
-            </View>
+            <BottomNav navigation={navigation} />
         </SafeAreaView>
     );
 }
@@ -251,7 +230,6 @@ const styles = StyleSheet.create({
     CardText: {
         color: '#444242',
         fontSize: 11,
-
     },
 
     CardImage: {
@@ -264,27 +242,6 @@ const styles = StyleSheet.create({
         height: 80,  // Adjust based on your image size
     },
 
-    BottomNav: {
-        position: 'absolute', // Makes the bottom navigation stick to the bottom
-        bottom: 0,
-        left: 0,
-        right: 0,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        height: 60,
-    },
-
-    NavButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    ButtonText: {
-        color: '#444242',
-        fontSize: 12,
-    },
 });
 
 export default Home;
