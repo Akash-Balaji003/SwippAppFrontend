@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '90%',
-        marginVertical: '3%',
+        marginVertical: '4%',
         marginLeft: 'auto',
         marginRight: 'auto',
     },
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         width: '90%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginVertical: '2%',
+        marginVertical: '3%',
         backgroundColor: '#FFFFFF',
         borderRadius: 15,
         paddingHorizontal: 15,
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
 
     content: {
         paddingHorizontal: '5%',
-        paddingTop: 5,
+        paddingTop: 10,
         paddingBottom: 0, // Adds padding to prevent bottom navbar from covering content
 
     },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'grey',
         borderRadius: 15,
-        marginBottom: '2%',
+        marginBottom: '5%',
         padding: '10%',
         elevation: 4,
         shadowColor: '#000',
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
-        marginBottom: '2%',
+        marginBottom: '5%',
         paddingTop:5
     },
     
