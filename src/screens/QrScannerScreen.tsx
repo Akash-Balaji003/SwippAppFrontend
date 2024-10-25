@@ -16,9 +16,9 @@ import { RootStackParamList } from '../App';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BottomNav from '../components/BottomNav';
 
-type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
+type QrProps = NativeStackScreenProps<RootStackParamList, 'QRCodeScanner'> 
 
-const Home = ({navigation}:HomeProps) => {
+const QRCodeScanner = ({navigation}:QrProps) => {
 
     const[text, setText] = useState("Name");
 
@@ -75,7 +75,7 @@ const Home = ({navigation}:HomeProps) => {
 
                     <TouchableOpacity style={styles.Card}>
                         <View style={styles.CardTextHolder}>
-                            <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
+                            <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]} onPress={() => navigation.navigate("Login")}>
                                 <Text style={{color: "#0077B6"}}>SHARE</Text> YOUR CARD
                             </Text>
                             <Text style={[styles.CardText, {paddingTop:3}]}>DISTRIBUTE YOUR CARD WITH OTHERS AND EXPAND YOUR NETWORK</Text>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '90%',
-        marginVertical: '4%',
+        marginVertical: '3%',
         marginLeft: 'auto',
         marginRight: 'auto',
     },
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         width: '90%',
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginVertical: '3%',
+        marginVertical: '2%',
         backgroundColor: '#FFFFFF',
         borderRadius: 15,
         paddingHorizontal: 15,
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
 
     content: {
         paddingHorizontal: '5%',
-        paddingTop: 10,
+        paddingTop: 5,
         paddingBottom: 0, // Adds padding to prevent bottom navbar from covering content
 
     },
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'grey',
         borderRadius: 15,
-        marginBottom: '5%',
+        marginBottom: '2%',
         padding: '10%',
         elevation: 4,
         shadowColor: '#000',
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
-        marginBottom: '5%',
+        marginBottom: '2%',
         paddingTop:5
     },
     
@@ -244,4 +244,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Home;
+export default QRCodeScanner;

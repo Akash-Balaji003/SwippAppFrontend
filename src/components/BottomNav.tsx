@@ -31,7 +31,7 @@ const BottomNav = ({navigation}:BottomNavProps) => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.NavButton}>
-                <AntDesign name="qrcode" size={28} color="#444242" />
+                <AntDesign name="qrcode" size={28} color="#444242" onPress={() => navigation.navigate('QRCodeScanner')} />
                 <Text style={styles.ButtonText}>Scan</Text>
             </TouchableOpacity>
 

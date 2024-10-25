@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import {
     Image,
     SafeAreaView,
-    ScrollView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
     View,
+    useWindowDimensions
 } from 'react-native';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,6 +20,7 @@ type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>
 
 const Home = ({navigation}:HomeProps) => {
 
+    const { height } = useWindowDimensions();
     const[text, setText] = useState("Name");
 
     const Tester = (text: React.SetStateAction<string>) => {
@@ -27,7 +28,7 @@ const Home = ({navigation}:HomeProps) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={[styles.container, { height }]}>
             {/* Top Bar */}
             <View style={styles.TopBarNav}>
                 <View>
@@ -50,14 +51,14 @@ const Home = ({navigation}:HomeProps) => {
             </View>
 
             {/* Content */}
-            <ScrollView contentContainerStyle={styles.content}>
+            <View style={styles.content}>
                 <View style={styles.AdPlaceholder}>
                     <Text>Advertisements</Text>
                 </View>
 
                 <View style={styles.CardsHolder}>
 
-                    <TouchableOpacity style={styles.Card}>
+                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("Login")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
                                 <Text style={{color: "#0077B6"}}>EDIT</Text> YOUR CARD
@@ -130,7 +131,7 @@ const Home = ({navigation}:HomeProps) => {
                 <View style={styles.AdPlaceholder}>
                     <Text>Advertisements</Text>
                 </View>
-            </ScrollView>
+            </View>
 
             {/* Bottom Navigation */}
             <BottomNav navigation={navigation} />
@@ -183,10 +184,13 @@ const styles = StyleSheet.create({
     },
 
     content: {
+        flex: 0.9,
         paddingHorizontal: '5%',
         paddingTop: 5,
-        paddingBottom: 0, // Adds padding to prevent bottom navbar from covering content
-
+        paddingBottom: 20, // Add some bottom padding
+        justifyContent: 'space-around',
+        marginTop: 10, // Add space above the content
+        marginBottom: 10, // Add space below the content
     },
 
     AdPlaceholder: {
@@ -194,8 +198,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'grey',
         borderRadius: 15,
-        marginBottom: '2%',
-        padding: '10%',
+        marginTop: '1%',
+        paddingVertical: '8%',
         elevation: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
@@ -207,12 +211,12 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         flexWrap: "wrap",
-        marginBottom: '2%',
-        paddingTop:5
+        paddingTop: 5,
+        marginVertical: 5, // Add some vertical margin between the card holders
     },
     
     Card: {
-        flex: 0.48, // Allows two cards per row with space between them
+        flex: 0.48,
         backgroundColor: '#FFFFFF',
         borderRadius: 15,
         padding: 10,
@@ -221,6 +225,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.25,
         shadowRadius: 3,
+        marginBottom: 5, // Add space between the individual cards
     },
 
     CardTextHolder: {
@@ -233,15 +238,16 @@ const styles = StyleSheet.create({
     },
 
     CardImage: {
-        height: 80,  // Adjust based on your needs
-        alignItems: 'center',  // Center the image horizontally
-        marginTop: 10,  // Space between text and image
-    },
-    ImageStyle: {
-        width: 140,   // Adjust based on your image size
-        height: 80,  // Adjust based on your image size
+        height: 80,
+        alignItems: 'center',
+        marginTop: 10,
     },
 
+    ImageStyle: {
+        width: 140,
+        height: 80,
+    },
 });
+
 
 export default Home;
