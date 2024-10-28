@@ -9,6 +9,9 @@ import ViewCard from './screens/ViewCard';
 import BottomNav from './components/BottomNav';
 import QRCodeScanner from './screens/QrScannerScreen';
 import Login from './screens/Login'
+import AccountCreation from './screens/AccountCreation';
+import AboutYou from './screens/AboutYou';
+import AboutCompany from './screens/AboutCompany';
 
 enableScreens(); 
 
@@ -23,6 +26,9 @@ export type RootStackParamList = {
     BottomNav: undefined;
     QRCodeScanner: undefined;
     Login: undefined;
+    AccountCreation: undefined;
+    AboutYou: undefined;
+    AboutCompany: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -56,6 +62,21 @@ function App(): React.JSX.Element {
                 <Stack.Screen
                 name='Login'
                 component={Login}
+                options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                name='AccountCreation'
+                component={AccountCreation}
+                options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                name='AboutYou'
+                component={AboutYou}
+                options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                name='AboutCompany'
+                component={AboutCompany}
                 options={{ headerShown: false }}
                 />
             </Stack.Navigator>

@@ -127,10 +127,6 @@ const Home = ({navigation}:HomeProps) => {
                     </TouchableOpacity>
 
                 </View>
-
-                <View style={styles.AdPlaceholder}>
-                    <Text>Advertisements</Text>
-                </View>
             </View>
 
             {/* Bottom Navigation */}
