@@ -60,7 +60,7 @@ const AboutYou = ({ navigation }: AboutYouProps) => {
 
             {/* Next Button */}
             <View style={[{flexDirection:'row', justifyContent:'space-between'}]}>
-                <TouchableOpacity style={[styles.buttonBack]}>
+                <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>BACK</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.buttonArrow]} onPress={() => navigation.navigate('Login')}>

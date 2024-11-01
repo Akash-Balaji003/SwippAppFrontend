@@ -37,7 +37,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
   
       if (response.ok) {
         // Navigate to Home screen on successful login
-        navigation.navigate("Home", {
+        navigation.navigate("Profiles", {
           userId: data.user_id,
           name: data.Name,
           profileIds: data["Profile IDs"],

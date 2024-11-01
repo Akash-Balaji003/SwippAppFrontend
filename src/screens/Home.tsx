@@ -18,14 +18,11 @@ import BottomNav from '../components/BottomNav';
 
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
 
-const Home = ({navigation}:HomeProps) => {
+const Home = ({route, navigation}:HomeProps) => {
+
+    const { username } = route.params;
 
     const { height } = useWindowDimensions();
-    const[text, setText] = useState("Name");
-
-    const Tester = (text: React.SetStateAction<string>) => {
-        setText(text);
-    }
 
     return (
         <SafeAreaView style={[styles.container, { height }]}>
@@ -33,10 +30,10 @@ const Home = ({navigation}:HomeProps) => {
             <View style={styles.TopBarNav}>
                 <View>
                     <Text style={styles.WelcomeText}>Welcome</Text>
-                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{text}</Text>
+                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{username}</Text>
                 </View>
                 <TouchableOpacity>
-                    <FontAwesome name="bell-o" size={30} color="black" onPress={() => Tester("Akash")} />
+                    <FontAwesome name="bell-o" size={30} color="black" />
                 </TouchableOpacity>
             </View>
 

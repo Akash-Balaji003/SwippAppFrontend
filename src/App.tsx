@@ -12,11 +12,29 @@ import Login from './screens/Login'
 import AccountCreation from './screens/AccountCreation';
 import AboutYou from './screens/AboutYou';
 import AboutCompany from './screens/AboutCompany';
+import Profiles from './screens/Profiles';
 
 enableScreens(); 
 
 export type RootStackParamList = {
     Home: {
+        userId: number;
+        name: string;
+        profileId: number;
+        profileTitle: string;
+        address1: string;
+        address2?: string | null;
+        city: string;
+        companyName: string;
+        country: string;
+        email1: string;
+        email2?: string | null;
+        pincode: string;
+        primaryPhone: string;
+        secondaryPhone?: string | null;
+        username: string;
+    };
+    Profiles: {
         userId: number;
         name: string;
         profileIds: number[];
@@ -62,6 +80,11 @@ function App(): React.JSX.Element {
                 <Stack.Screen
                 name='Login'
                 component={Login}
+                options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                name='Profiles'
+                component={Profiles}
                 options={{ headerShown: false }}
                 />
                 <Stack.Screen

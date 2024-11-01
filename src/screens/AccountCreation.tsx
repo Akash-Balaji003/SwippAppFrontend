@@ -11,6 +11,7 @@ import {
     useWindowDimensions
 } from 'react-native';
 import { RootStackParamList } from '../App';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 type AccProps = NativeStackScreenProps<RootStackParamList, 'AccountCreation'>;
 
@@ -53,9 +54,14 @@ const AccountCreation = ({ navigation }: AccProps) => {
             </View>
 
             {/* Next Button */}
-            <TouchableOpacity style={[styles.button, { width: Platform.OS === 'ios' ? '80%' : 'auto'}]} onPress={() => navigation.navigate("AboutYou")}>
-                <Text style={styles.buttonText}>NEXT</Text>
-            </TouchableOpacity>
+            <View style={[{flexDirection:'row', justifyContent:'space-between'}]}>
+                <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
+                    <Text style={styles.buttonText}>CANCEL</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.buttonArrow]} onPress={() => navigation.navigate('AboutYou')}>
+                    <AntDesign name="arrowright" size={20} color="white" />
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 };
@@ -135,6 +141,22 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    buttonBack: {
+        backgroundColor: '#001f3f',
+        borderRadius: 25,
+        paddingVertical: 15,
+        alignItems: 'center',
+        marginTop: 20,
+        width:'50%'
+    },
+    buttonArrow: {
+        backgroundColor: '#001f3f',
+        borderRadius: 50,
+        paddingVertical: 15,
+        alignItems: 'center',
+        marginTop: 20,
+        width: 50
     },
 });
 
