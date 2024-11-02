@@ -19,19 +19,28 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomNav from '../components/BottomNav';
+import { useProfile } from '../components/ProfileContext';
 
 type ViewCardProps = NativeStackScreenProps<RootStackParamList, 'ViewCard'> 
 
 const ViewCard = ({navigation}:ViewCardProps) => {
 
-    const[text, setText] = useState("Name");
-
-    const Tester = (text: React.SetStateAction<string>) => {
-        setText(text);
-    }
+    const { profile } = useProfile();
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.Card}>
+                <Text>{profile?.common_name}</Text>
+                <Text>{profile?.company_name}</Text>
+                <Text>{profile?.primary_phone}</Text>
+                <Text>{profile?.secondary_phone}</Text>
+                <Text>{profile?.email1}</Text>
+                <Text>{profile?.email2}</Text>
+                <Text>{profile?.address1}</Text>
+                <Text>{profile?.city}</Text>
+                <Text>{profile?.country}</Text>
+                <Text>{profile?.pincode}</Text>
+            </View>
             {/* Bottom Navigation */}
             <BottomNav navigation={navigation} />
         </SafeAreaView>
@@ -42,6 +51,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#F3FBFF",
+        justifyContent:'center',
+        alignContent:'center'
     },
 
     TopBarNav: {
@@ -112,8 +123,10 @@ const styles = StyleSheet.create({
     },
     
     Card: {
-        flex: 0.48, // Allows two cards per row with space between them
-        backgroundColor: '#FFFFFF',
+        width:'80%',
+        height:'60%',
+        alignSelf:'center',
+        backgroundColor: 'black',
         borderRadius: 15,
         padding: 10,
         elevation: 4,

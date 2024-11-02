@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Platform,
     SafeAreaView,
@@ -17,6 +17,38 @@ type AccProps = NativeStackScreenProps<RootStackParamList, 'AccountCreation'>;
 
 const AccountCreation = ({ navigation }: AccProps) => {
     const { width, height } = useWindowDimensions();
+
+    const [common_name, setCommonName] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirm_password, setConfirmPassword] = useState('');
+    const [phone_number, setPhoneNumber] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const navigateNext = async() => {
+        navigation.navigate('AboutYou',{
+            common_name: common_name,
+            phone_number: phone_number,
+            password: password,
+        })
+    };
+
+    const handleNext = async () => {
+        if (!common_name || !phone_number || !password || !confirm_password) {
+            setErrorMessage("All fields are required.");
+            return;
+        }
+    
+        if (password !== confirm_password) {
+            setErrorMessage("Passwords don't match.");
+            return;
+        }
+    
+        // Clear error message if validations pass
+        setErrorMessage("");
+        navigateNext();
+    };
+    
 
     return (
         <SafeAreaView style={[styles.container, { width, height }]}>
@@ -47,10 +79,11 @@ const AccountCreation = ({ navigation }: AccProps) => {
 
             {/* Input Fields */}
             <View style={[styles.inputContainer, { width: Platform.OS === 'ios' ? '80%' : 'auto'}]}>
-                <TextInput placeholder="Name" style={styles.input} placeholderTextColor="#888" />
-                <TextInput placeholder="Mobile number" style={styles.input} placeholderTextColor="#888" keyboardType="phone-pad" />
-                <TextInput placeholder="Password" style={styles.input} placeholderTextColor="#888" secureTextEntry />
-                <TextInput placeholder="Confirm password" style={styles.input} placeholderTextColor="#888" secureTextEntry />
+                <TextInput placeholder="Name" value={common_name} onChangeText={setCommonName} style={styles.input} placeholderTextColor="#888" />
+                <TextInput placeholder="Mobile number" value={phone_number} onChangeText={setPhoneNumber} style={styles.input} placeholderTextColor="#888" keyboardType="phone-pad" />
+                <TextInput placeholder="Password" value={password} onChangeText={setPassword} style={styles.input} placeholderTextColor="#888" secureTextEntry />
+                <TextInput placeholder="Confirm password" value={confirm_password} onChangeText={setConfirmPassword} style={styles.input} placeholderTextColor="#888" secureTextEntry />
+                <Text style={[styles.stepLabel, {alignSelf:'center', color:'red'}]}>{errorMessage}</Text>
             </View>
 
             {/* Next Button */}
@@ -58,7 +91,7 @@ const AccountCreation = ({ navigation }: AccProps) => {
                 <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>CANCEL</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonArrow]} onPress={() => navigation.navigate('AboutYou')}>
+                <TouchableOpacity style={[styles.buttonArrow]} onPress={handleNext}>
                     <AntDesign name="arrowright" size={20} color="white" />
                 </TouchableOpacity>
             </View>
@@ -122,6 +155,7 @@ const styles = StyleSheet.create({
     },
     input: {
         backgroundColor: '#f2f2f2',
+        color:"black",
         borderRadius: 25,
         paddingHorizontal: 20,
         paddingVertical: 15,

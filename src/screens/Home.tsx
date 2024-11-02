@@ -32,7 +32,7 @@ const Home = ({navigation}:HomeProps) => {
             <View style={styles.TopBarNav}>
                 <View>
                     <Text style={styles.WelcomeText}>Welcome</Text>
-                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{profile.username}</Text>
+                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{profile.common_name}</Text>
                 </View>
                 <TouchableOpacity>
                     <FontAwesome name="bell-o" size={30} color="black" />

@@ -2,19 +2,19 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface ProfileData {
     userId: number;
-    name: string;
+    common_name: string;
     profileId: number;
     profileTitle: string;
     address1: string;
     address2?: string | null;
     city: string;
-    companyName: string;
+    company_name: string;
     country: string;
     email1: string;
     email2?: string | null;
     pincode: string;
-    primaryPhone: string;
-    secondaryPhone?: string | null;
+    primary_phone: string;
+    secondary_phone?: string | null;
     username: string;
 }
 

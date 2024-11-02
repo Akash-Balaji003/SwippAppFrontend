@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Platform,
     SafeAreaView,
@@ -14,10 +14,68 @@ import { RootStackParamList } from '../App';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-type AboutYouProps = NativeStackScreenProps<RootStackParamList, 'AboutCompany'>;
+type AboutCompanyProps = NativeStackScreenProps<RootStackParamList, 'AboutCompany'>;
 
-const AboutYou = ({ navigation }: AboutYouProps) => {
+const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
     const { width, height } = useWindowDimensions();
+
+    const { common_name, phone_number, password, profile_title, primary_phone, email1 } = route.params;
+
+    const [ company_name, setCompanyName ] = useState('');
+    const [ address, setAddress ] = useState('');
+    const [ city, setCity ] = useState('');
+    const [ pincode, setPincode ] = useState('');
+    const [ country, setCountry ] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const registerUser = async() => {
+        try {
+            const response = await fetch('https://hchjn6x7-8000.inc1.devtunnels.ms/register2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    common_name: common_name,
+                    phone_number: phone_number,
+                    password: password,
+
+                    profile_title: profile_title,
+                    primary_phone: primary_phone,
+                    email1: email1,
+
+                    company_name: company_name,
+                    address1: address,
+                    city: city,
+                    pincode: pincode,
+                    country: country,
+
+                    secondary_phone: '',  // Optional
+                    email2: '',           // Optional
+                    address2: ''          // Optional
+                }),
+            });
+
+            if (response.ok){
+                navigation.navigate("Login");
+            }
+        }
+        catch (error) {
+            setErrorMessage('Failed to connect to the server. Please try again later.');
+        }
+    };
+
+    const handleNext = async () => {
+        if (!company_name || !address || !city || !pincode || !country) {
+            setErrorMessage("All fields are required.");
+            return;
+        }
+    
+        // Clear error message if validations pass
+        setErrorMessage("");
+        registerUser();
+    };
 
     return (
         <SafeAreaView style={[styles.container, { width, height }]}>
@@ -49,13 +107,14 @@ const AboutYou = ({ navigation }: AboutYouProps) => {
 
             {/* Input Fields */}
             <View style={[styles.inputContainer, { width: Platform.OS === 'ios' ? '80%' : 'auto'}]}>
-                <TextInput placeholder="Company Name" style={styles.input} placeholderTextColor="#888" />
-                <TextInput placeholder="Address" style={styles.input} placeholderTextColor="#888" />
+                <TextInput placeholder="Company Name" value={company_name} onChangeText={setCompanyName} style={styles.input} placeholderTextColor="#888" />
+                <TextInput placeholder="Address" value={address} onChangeText={setAddress} style={styles.input} placeholderTextColor="#888" />
                 <View style={[{flexDirection:'row', justifyContent:'space-between'}]}>
-                    <TextInput placeholder="City" style={[styles.input, {width:"45%"}]} placeholderTextColor="#888" />
-                    <TextInput placeholder="Pincode" style={[styles.input, {width:"45%"}]} placeholderTextColor="#888" keyboardType='phone-pad' />
+                    <TextInput placeholder="City" value={city} onChangeText={setCity} style={[styles.input, {width:"45%"}]} placeholderTextColor="#888" />
+                    <TextInput placeholder="Pincode" value={pincode} onChangeText={setPincode} style={[styles.input, {width:"45%"}]} placeholderTextColor="#888" keyboardType='phone-pad' />
                 </View>
-                <TextInput placeholder="Country" style={styles.input} placeholderTextColor="#888" keyboardType='email-address' />
+                <TextInput placeholder="Country" value={country} onChangeText={setCountry} style={styles.input} placeholderTextColor="#888" keyboardType='email-address' />
+                <Text style={[styles.stepLabel, {alignSelf:'center', color:'red'}]}>{errorMessage}</Text>
             </View>
 
             {/* Next Button */}
@@ -63,7 +122,7 @@ const AboutYou = ({ navigation }: AboutYouProps) => {
                 <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>BACK</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonArrow]} onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity style={[styles.buttonArrow]} onPress={handleNext}>
                     <AntDesign name="arrowright" size={20} color="white" />
                 </TouchableOpacity>
             </View>
@@ -128,6 +187,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#f2f2f2',
         borderRadius: 25,
+        color:'black',
         paddingHorizontal: 20,
         paddingVertical: 15,
         fontSize: 16,
@@ -156,4 +216,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AboutYou;
+export default AboutCompany;

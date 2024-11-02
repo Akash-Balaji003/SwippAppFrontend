@@ -29,8 +29,20 @@ export type RootStackParamList = {
     QRCodeScanner: undefined;
     Login: undefined;
     AccountCreation: undefined;
-    AboutYou: undefined;
-    AboutCompany: undefined;
+    AboutYou: {
+        common_name: string;
+        phone_number: string;
+        password: string;
+    };
+    AboutCompany: {
+        common_name: string;
+        phone_number: string;
+        password: string;
+
+        profile_title: string;
+        primary_phone: string;
+        email1: string;
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

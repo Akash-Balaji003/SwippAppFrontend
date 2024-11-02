@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Platform,
     SafeAreaView,
@@ -16,8 +16,38 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 type AboutYouProps = NativeStackScreenProps<RootStackParamList, 'AboutYou'>;
 
-const AboutYou = ({ navigation }: AboutYouProps) => {
+const AboutYou = ({ route, navigation }: AboutYouProps) => {
     const { width, height } = useWindowDimensions();
+    const { common_name, phone_number, password } = route.params;
+
+    const [ profile_title, setProfileTitle ] = useState('');
+    const [ primary_phone, setPrimaryPhone ] = useState(phone_number);
+    const [ email1, setEmail ] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const navigateNext = async() => {
+        navigation.navigate('AboutCompany',{
+            common_name: common_name,
+            phone_number: phone_number,
+            password: password,
+
+            profile_title: profile_title,
+            primary_phone: primary_phone,
+            email1: email1
+        })
+    };
+
+    const handleNext = async () => {
+        if (!profile_title || !primary_phone || !email1) {
+            setErrorMessage("All fields are required.");
+            return;
+        }
+    
+        // Clear error message if validations pass
+        setErrorMessage("");
+        navigateNext();
+    };
 
     return (
         <SafeAreaView style={[styles.container, { width, height }]}>
@@ -49,10 +79,11 @@ const AboutYou = ({ navigation }: AboutYouProps) => {
 
             {/* Input Fields */}
             <View style={[styles.inputContainer, { width: Platform.OS === 'ios' ? '80%' : 'auto'}]}>
-                <TextInput placeholder="Card Title" style={styles.input} placeholderTextColor="#888" />
-                <TextInput placeholder="Name" style={styles.input} placeholderTextColor="#888" />
-                <TextInput placeholder="Mobile number" style={styles.input} placeholderTextColor="#888" keyboardType='phone-pad' />
-                <TextInput placeholder="Email" style={styles.input} placeholderTextColor="#888" keyboardType='email-address' />
+                <TextInput placeholder="Card Title" value={profile_title} onChangeText={setProfileTitle} style={styles.input} placeholderTextColor="#888" />
+                <TextInput placeholder="Name" value={common_name} editable={false} style={styles.input} placeholderTextColor="#888" />
+                <TextInput placeholder="Mobile number" value={primary_phone} onChangeText={setPrimaryPhone} style={styles.input} placeholderTextColor="#888" keyboardType='phone-pad' />
+                <TextInput placeholder="Email" value={email1} onChangeText={setEmail} style={styles.input} placeholderTextColor="#888" keyboardType='email-address' />
+                <Text style={[styles.stepLabel, {alignSelf:'center', color:'red'}]}>{errorMessage}</Text>
             </View>
 
             {/* Next Button */}
@@ -60,7 +91,7 @@ const AboutYou = ({ navigation }: AboutYouProps) => {
                 <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>BACK</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.buttonArrow]} onPress={() => navigation.navigate('AboutCompany')}>
+                <TouchableOpacity style={[styles.buttonArrow]} onPress={handleNext}>
                     <AntDesign name="arrowright" size={20} color="white" />
                 </TouchableOpacity>
             </View>
@@ -125,6 +156,7 @@ const styles = StyleSheet.create({
     input: {
         backgroundColor: '#f2f2f2',
         borderRadius: 25,
+        color:'black',
         paddingHorizontal: 20,
         paddingVertical: 15,
         fontSize: 16,
