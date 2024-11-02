@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     SafeAreaView,
     TouchableOpacity,
@@ -6,11 +6,9 @@ import {
     View,
     StyleSheet,
 } from 'react-native';
-
-import { Camera, useCameraDevice } from 'react-native-vision-camera';
+import { Camera, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
-import BottomNav from '../components/BottomNav';
 
 type QrProps = NativeStackScreenProps<RootStackParamList, 'QRCodeScanner'>;
 
@@ -19,21 +17,41 @@ const QRCodeScanner = ({ navigation }: QrProps) => {
     const device = useCameraDevice('back');
     const cameraRef = useRef<Camera>(null);
 
-    const openCamera = async () => {
-        const permission = await Camera.requestCameraPermission();
-        if (permission === 'granted') {
-            setShowCamera(true);
-        } else {
-            console.log("Camera permission denied");
+    useEffect(() => {
+        const requestPermission = async () => {
+            const permission = await Camera.requestCameraPermission();
+            if (permission === 'granted') {
+                setShowCamera(true);
+            } else {
+                navigation.goBack();
+            }
+        };
+
+        requestPermission();
+    }, [navigation]);
+
+    const codeScanner = useCodeScanner({
+        codeTypes: ['qr', 'ean-13'],
+        onCodeScanned: (codes) => {
+            // Filter to get only QR codes
+            const qrCodes = codes.filter(code => code.type === 'qr');
+    
+            if (qrCodes.length > 0) {
+                // Log the QR code data
+                qrCodes.forEach(qrCode => {
+                    console.log(`Scanned QR code data: ${qrCode.value}`);
+                });
+            } else {
+                console.log('No QR codes scanned.');
+            }
         }
-    };
+    });
 
     const takePicture = async () => {
         if (cameraRef.current) {
             try {
                 const photo = await cameraRef.current.takePhoto();
                 console.log('Photo taken:', photo);
-                // Add any further handling of the photo here
             } catch (error) {
                 console.error('Failed to take photo:', error);
             }
@@ -50,31 +68,30 @@ const QRCodeScanner = ({ navigation }: QrProps) => {
                         device={device}
                         isActive={showCamera}
                         photo={true}
+                        codeScanner={codeScanner}
                     />
-                    <View style={styles.cameraControls}>
-                        <TouchableOpacity
-                            onPress={takePicture}
-                            style={styles.captureButton}
-                        >
-                            <Text style={styles.buttonText}>Capture</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => setShowCamera(false)}
-                            style={styles.exitButton}
-                        >
-                            <Text style={styles.buttonText}>Exit</Text>
-                        </TouchableOpacity>
+                    <View style={styles.overlayContainer}>
+                        {/* Scanner Outline */}
+                        <View style={styles.scannerOutline} />
+
+                        {/* Camera Controls */}
+                        <View style={styles.cameraControls}>
+                            <TouchableOpacity
+                                onPress={takePicture}
+                                style={styles.captureButton}
+                            >
+                                <Text style={styles.buttonText}>Capture</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => navigation.goBack()}
+                                style={styles.exitButton}
+                            >
+                                <Text style={styles.buttonText}>Exit</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            ) : (
-                <TouchableOpacity
-                    onPress={openCamera}
-                    style={styles.openCameraButton}
-                >
-                    <Text style={styles.buttonText}>Open Camera</Text>
-                </TouchableOpacity>
-            )}
-            <BottomNav navigation={navigation} />
+            ) : null}
         </SafeAreaView>
     );
 };
@@ -82,37 +99,49 @@ const QRCodeScanner = ({ navigation }: QrProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F3FBFF",
+        backgroundColor: '#000',
     },
-    openCameraButton: {
+    overlayContainer: {
+        flex: 1,
         justifyContent: 'center',
-        backgroundColor: 'cyan',
-        width: '40%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: '20%',
-        height: 40,
+        alignItems: 'center',
     },
-    buttonText: {
-        alignSelf: 'center',
+    scannerOutline: {
+        width: '70%',
+        height: '40%',
+        borderWidth: 3,
+        borderColor: 'rgba(0, 150, 255, 0.7)',
+        borderRadius: 15,
+        opacity: 0.7,
     },
     cameraControls: {
         position: 'absolute',
-        bottom: 80,
-        width: '100%',
+        bottom: 50,
         flexDirection: 'row',
         justifyContent: 'space-around',
-        zIndex: 1,
+        width: '100%',
+        paddingHorizontal: 20,
     },
     captureButton: {
-        backgroundColor: 'blue',
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#00A4E4',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        marginHorizontal: 10,
+        elevation: 5,
     },
     exitButton: {
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
+        backgroundColor: '#E60000',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 30,
+        marginHorizontal: 10,
+        elevation: 5,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
 

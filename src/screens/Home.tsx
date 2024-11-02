@@ -73,7 +73,7 @@ const Home = ({navigation}:HomeProps) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("QRCodeScanner")}>
+                    <TouchableOpacity style={styles.Card}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
                                 <Text style={{color: "#0077B6"}}>SHARE</Text> YOUR CARD
