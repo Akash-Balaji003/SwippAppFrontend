@@ -37,10 +37,15 @@ const QRCodeScanner = ({ navigation }: QrProps) => {
             const qrCodes = codes.filter(code => code.type === 'qr');
     
             if (qrCodes.length > 0) {
-                // Log the QR code data
-                qrCodes.forEach(qrCode => {
-                    console.log(`Scanned QR code data: ${qrCode.value}`);
-                });
+                // Navigate to another screen with the scanned QR code data
+                const qrCodeValue = qrCodes[0].value; // Get the first QR code value
+                console.log(`Scanned QR code data: ${qrCodeValue}`);
+                
+                // Navigate to another screen (e.g., 'QRCodeResult') and pass the QR code value
+                navigation.navigate('QRCodeResult', { QRResult: qrCodeValue });
+
+                // Stop scanning
+                setShowCamera(false);
             } else {
                 console.log('No QR codes scanned.');
             }

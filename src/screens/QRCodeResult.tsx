@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Image,
     Platform,
@@ -21,37 +21,57 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../components/ProfileContext';
 
-type ViewCardProps = NativeStackScreenProps<RootStackParamList, 'ViewCard'> 
+interface UserInfo {
+    userId: number;
+    common_name: string;
+    profileId: number;
+    profileTitle: string;
+    address1: string;
+    address2?: string | null;
+    city: string;
+    company_name: string;
+    country: string;
+    email1: string;
+    email2?: string | null;
+    pincode: string;
+    primary_phone: string;
+    secondary_phone?: string | null;
+    username: string;
+}
 
-const ViewCard = ({navigation}:ViewCardProps) => {
 
-    const { profile } = useProfile();
+type QRCodeResultProps = NativeStackScreenProps<RootStackParamList, 'QRCodeResult'> 
+
+const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
+
+    const {QRResult} = route.params;
+    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+    useEffect(() => {
+        // Assuming QRResult is a JSON string
+        const data = typeof QRResult === 'string' ? JSON.parse(QRResult) : QRResult;
+        setUserInfo(data);
+    }, [QRResult]); // Depend on QRResult to update when it changes
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.Card}>
-                <View>
-                    <Text style={{color:'black'}}>{profile?.common_name}</Text>
-                    <Text style={{color:'black'}}>{profile?.company_name}</Text>
-                    <Text style={{color:'black'}}>{profile?.primary_phone}</Text>
-                    <Text style={{color:'black'}}>{profile?.secondary_phone}</Text>
-                    <Text style={{color:'black'}}>{profile?.email1}</Text>
-                    <Text style={{color:'black'}}>{profile?.email2}</Text>
-                    <Text style={{color:'black'}}>{profile?.address1}</Text>
-                    <Text style={{color:'black'}}>{profile?.city}</Text>
-                    <Text style={{color:'black'}}>{profile?.country}</Text>
-                    <Text style={{color:'black'}}>{profile?.pincode}</Text>
-                </View>
-                
-                <View style={{flexDirection:'row', justifyContent:'space-between', margin:5}}>
-                    <TouchableOpacity style={{backgroundColor:'grey', width:'40%'}}>
-                        <Text style={{color:'black', alignSelf:'center'}}>EDIT</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                        <Text style={{color:'black'}}>SHARE</Text>
-                    </TouchableOpacity>
-                </View>
+                {userInfo ? (
+                    <>
+                        <Text>{userInfo.common_name}</Text>
+                        <Text>{userInfo.company_name}</Text>
+                        <Text>{userInfo.primary_phone}</Text>
+                        <Text>{userInfo.secondary_phone}</Text>
+                        <Text>{userInfo.email1}</Text>
+                        <Text>{userInfo.email2}</Text>
+                        <Text>{userInfo.address1}</Text>
+                        <Text>{userInfo.city}</Text>
+                        <Text>{userInfo.country}</Text>
+                        <Text>{userInfo.pincode}</Text>
+                    </>
+                ) : (
+                    <Text>No user information available.</Text>
+                )}
             </View>
             {/* Bottom Navigation */}
             <BottomNav navigation={navigation} />
@@ -63,7 +83,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#F3FBFF",
-        justifyContent:'space-around',
+        justifyContent:'center',
+        alignContent:'center'
     },
 
     TopBarNav: {
@@ -137,8 +158,7 @@ const styles = StyleSheet.create({
         width:'80%',
         height:'60%',
         alignSelf:'center',
-        backgroundColor: 'white',
-        justifyContent:'space-between',
+        backgroundColor: 'black',
         borderRadius: 15,
         padding: 10,
         elevation: 4,
@@ -191,4 +211,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ViewCard;
+export default QRCodeResult;

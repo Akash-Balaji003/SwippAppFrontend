@@ -13,6 +13,7 @@ import AccountCreation from './screens/AccountCreation';
 import AboutYou from './screens/AboutYou';
 import AboutCompany from './screens/AboutCompany';
 import Profiles from './screens/Profiles';
+import QRCodeResult from './screens/QRCodeResult'
 
 enableScreens(); 
 
@@ -43,6 +44,9 @@ export type RootStackParamList = {
         primary_phone: string;
         email1: string;
     };
+    QRCodeResult: {
+        QRResult: string | undefined;
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -61,6 +65,7 @@ function App(): React.JSX.Element {
                     <Stack.Screen name='AccountCreation' component={AccountCreation} options={{ headerShown: false }} />
                     <Stack.Screen name='AboutYou' component={AboutYou} options={{ headerShown: false }} />
                     <Stack.Screen name='AboutCompany' component={AboutCompany} options={{ headerShown: false }} />
+                    <Stack.Screen name='QRCodeResult' component={QRCodeResult} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </ProfileProvider>
