@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface ProfileData {
-    userId: number;
+    user_id: number;
     common_name: string;
-    profileId: number;
-    profileTitle: string;
+    profile_id: number;
+    profile_title: string;
     address1: string;
     address2?: string | null;
     city: string;
@@ -15,7 +15,6 @@ interface ProfileData {
     pincode: string;
     primary_phone: string;
     secondary_phone?: string | null;
-    username: string;
 }
 
 interface ProfileContextProps {
