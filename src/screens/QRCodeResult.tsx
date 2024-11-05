@@ -24,7 +24,7 @@ import { useProfile } from '../components/ProfileContext';
 interface UserInfo {
     userId: number;
     common_name: string;
-    profileId: number;
+    profile_id: number;
     profileTitle: string;
     address1: string;
     address2?: string | null;
@@ -45,6 +45,7 @@ type QRCodeResultProps = NativeStackScreenProps<RootStackParamList, 'QRCodeResul
 const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
 
     const {QRResult} = route.params;
+    const { profile } = useProfile();
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
     useEffect(() => {
@@ -53,11 +54,34 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
         setUserInfo(data);
     }, [QRResult]); // Depend on QRResult to update when it changes
 
+    useEffect(() => {
+        // Call the API when userInfo is set and has a profileId
+        if (userInfo && profile) {
+            const url = `https://hchjn6x7-8000.inc1.devtunnels.ms/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}`;
+            
+            fetch(url)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log('Friend added successfully:', data);
+                })
+                .catch((error) => {
+                    console.error('Error adding friend:', error);
+                });
+        }
+    }, [userInfo, profile]);
+    
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.Card}>
                 {userInfo ? (
                     <>
+                        <Text>{userInfo.profile_id}</Text>
                         <Text>{userInfo.common_name}</Text>
                         <Text>{userInfo.company_name}</Text>
                         <Text>{userInfo.primary_phone}</Text>
