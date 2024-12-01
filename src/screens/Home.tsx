@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {
+    Alert,
+    FlatList,
     Image,
     SafeAreaView,
     StyleSheet,
@@ -17,12 +19,46 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../components/ProfileContext';
 
+interface Friend {
+    friend_profile_id: string;
+    common_name: string;
+    profile_title: string;
+}
+
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
 
 const Home = ({navigation}:HomeProps) => {
 
     const { profile } = useProfile();
     const { height } = useWindowDimensions();
+
+    const [searchInput, setSearchInput] = useState('');
+    const [searchResults, setSearchResults] = useState<Friend[]>([]); // State for storing search results
+
+    const getFriends = async (id: number | string) => {
+        try {
+            const response = await fetch(`https://hchjn6x7-8000.inc1.devtunnels.ms/get-friend?data=${profile?.profile_id}`);
+            if (!response.ok) throw new Error('Failed to fetch profile data');
+            const friendData = await response.json();
+            console.log('data', friendData);
+            setSearchResults(friendData);
+        } catch (error) {
+            Alert.alert('Error', 'Unable to fetch profile data. Please try again later.');
+            console.error(error);
+        }
+    };
+
+    const handleSearch = () => {
+        if (!searchInput.trim()) {
+            Alert.alert('Error', 'Please enter a valid input to search.');
+            return;
+        }
+        getFriends(searchInput.trim()); // Call getFriends with search input
+    };
+
+    const clearSearchResults = () => {
+        setSearchResults([]); // Clear the search results when navigating away or clearing input
+    };
 
     if (!profile) return <Text>Loading...</Text>;
 
@@ -34,20 +70,38 @@ const Home = ({navigation}:HomeProps) => {
                     <Text style={styles.WelcomeText}>Welcome</Text>
                     <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{profile.common_name}</Text>
                 </View>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => clearSearchResults()}>
                     <FontAwesome name="bell-o" size={30} color="black" />
                 </TouchableOpacity>
             </View>
 
             {/* Search Bar */}
             <View style={styles.SearchBar}>
-                <TextInput 
+                <TextInput
                     style={styles.searchInput}
                     placeholderTextColor='black'
                     textAlign='left'
-                    placeholder="Search..." 
+                    placeholder="Search..."
+                    onChangeText={setSearchInput} // Update search input state
+                    onSubmitEditing={handleSearch} // Handle search on pressing Enter/Done
                 />
             </View>
+
+            {/* Display Search Results as Floating UI */}
+            {searchResults.length > 0 && (
+                <View style={styles.floatingResultsContainer}>
+                    <FlatList
+                        data={searchResults}
+                        keyExtractor={(item) => item.friend_profile_id.toString()}
+                        renderItem={({ item }) => (
+                            <View style={styles.resultItem}>
+                                <Text style={styles.resultText}>{item.common_name}</Text>
+                                <Text style={styles.resultText}>{item.profile_title}</Text>
+                            </View>
+                        )}
+                    />
+                </View>
+            )}
 
             {/* Content */}
             <View style={styles.content}>
@@ -241,6 +295,37 @@ const styles = StyleSheet.create({
     ImageStyle: {
         width: 140,
         height: 80,
+    },
+
+    resultsContainer: {
+        marginVertical: 10, // Adds space between search bar and results
+        marginHorizontal: '5%', // Ensure it aligns with the content
+    },
+
+    floatingResultsContainer: {
+        position: 'absolute', 
+        top: '18.5%', 
+        left: '5%', 
+        right: '5%', 
+        backgroundColor: '#FFF', 
+        padding: 10, 
+        borderRadius: 10, 
+        elevation: 5, 
+        zIndex: 10, 
+        maxHeight: '50%',
+    },
+
+    resultItem: {
+        backgroundColor: '#FFF',
+        padding: 10,
+        borderRadius: 10,
+        marginVertical: 5,
+        elevation: 2,
+    },
+
+    resultText: {
+        fontSize: 16,
+        color: '#444242',
     },
 });
 

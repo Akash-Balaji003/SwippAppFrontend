@@ -31,7 +31,7 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
 
     const registerUser = async() => {
         try {
-            const response = await fetch('https://hchjn6x7-8000.inc1.devtunnels.ms/register2', {
+            const response = await fetch('https://hchjn6x7-8000.inc1.devtunnels.ms/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,9 +51,9 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
                     pincode: pincode,
                     country: country,
 
-                    secondary_phone: '',  // Optional
-                    email2: '',           // Optional
-                    address2: ''          // Optional
+                    secondary_phone: null,  
+                    email2: null,                     
+                    address2: null,
                 }),
             });
 

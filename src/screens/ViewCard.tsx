@@ -39,17 +39,37 @@ const ViewCard = ({navigation}: ViewCardProps) => {
         <SafeAreaView style={styles.container}>
             <Text style={{ color: 'black', alignSelf:'center', marginTop:'5%', fontSize:32 }}>{profile?.profile_title}</Text>
             <View style={styles.Card}>
-                <View>
-                    <Text style={{color: 'black'}}>{profile?.common_name}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.company_name}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.primary_phone}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.secondary_phone}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.email1}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.email2}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.address1}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.city}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.country}</Text>
-                    <Text style={{ color: 'black' }}>{profile?.pincode}</Text>
+            <View style={styles2.header}>
+                    <View style={styles2.imageContainer}>
+                        <View style={styles2.userImage} />
+                        <Text style={styles2.imageText}>userImage</Text>
+                    </View>
+                    <View style={styles2.logoContainer}>
+                        <Text style={styles2.logoText}>logo</Text>
+                    </View>
+                </View>
+
+                {/* Info Section */}
+                <View style={styles2.infoSection}>
+                    <Text style={styles2.name}>{profile?.common_name}</Text>
+                    <Text style={styles2.qualification}>qualification</Text>
+                    <Text style={styles2.designation}>designation</Text>
+                    <Text style={styles2.entityName}>{profile?.company_name}</Text>
+                    <Text style={styles2.entitySubname}>entitySubname</Text>
+
+                    {/* Contact Information */}
+                    <View style={styles2.contactContainer}>
+                        <Text style={styles2.entityName}>{profile?.primary_phone}</Text>
+                        <Text style={styles2.entityName}>{profile?.email1}</Text>
+                        <Text style={styles2.entityName}>{profile?.secondary_phone}</Text>
+                        <Text style={styles2.entityName}>{profile?.email2}</Text>
+                    </View>
+
+                    {/* Address Section */}
+                    <View style={styles2.addressContainer}>
+                        <Text style={styles2.entityName}>{profile?.address1}</Text>
+                        <Text style={styles2.entityName}>{profile?.city} | {profile?.pincode} | {profile?.country}</Text>
+                    </View>
                 </View>
                 
                 <View style={{flexDirection: 'row', justifyContent: 'center', margin: 5, height:'8%'}}>
@@ -106,11 +126,11 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#F3FBFF",
         justifyContent: 'flex-start',
-        gap:100
+        gap:50
     },
     Card: {
         width: '80%',
-        height: '60%',
+        height: '70%',
         alignSelf: 'center',
         backgroundColor: 'white',
         justifyContent: 'space-between',
@@ -153,6 +173,107 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         padding: 10,
         borderRadius: 5,
+    },
+});
+
+const styles2 = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: "#E8F1F8",
+        padding: '5%',
+        justifyContent: 'center',
+    },
+    card: {
+        backgroundColor: 'white',
+        borderRadius: 15,
+        padding: '5%',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+        width: '90%',
+        alignSelf: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: '5%',
+    },
+    imageContainer: {
+        alignItems: 'flex-start',
+        marginRight:'auto',
+    },
+    userImage: {
+        width: '50%', // Increased size
+        aspectRatio: 1,
+        backgroundColor: '#D3D3D3',
+        borderRadius: 40,
+        marginBottom: '2%',
+    },
+    imageText: {
+        fontSize: 12,
+        color: '#666',
+        marginLeft:'4%'
+    },
+    logoContainer: {
+        width: '40%', // Increased size
+        aspectRatio: 2,
+        backgroundColor: '#D3D3D3',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+    },
+    logoText: {
+        fontSize: 12,
+        color: '#666',
+        textAlign: 'center',
+    },
+    infoSection: {
+        marginBottom: '5%',
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'black',
+        marginBottom: '1%',
+    },
+    qualification: {
+        fontSize: 16,
+        color: '#666',
+        marginBottom: '1%',
+    },
+    designation: {
+        fontSize: 14,
+        color: '#666',
+        marginBottom: '3%',
+    },
+    entityName: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: 'black',
+    },
+    entitySubname: {
+        fontSize: 14,
+        color: '#666',
+        marginBottom: '5%',
+    },
+    contactContainer: {
+        marginBottom: '5%',
+        color: 'black',
+    },
+    addressContainer: {
+        marginBottom: '5%',
+        color: 'black',
+    },
+    footer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    footerLink: {
+        fontSize: 14,
+        color: '#3A86FF',
+        textDecorationLine: 'underline',
     },
 });
 

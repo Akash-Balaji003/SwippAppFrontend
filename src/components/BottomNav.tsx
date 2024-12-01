@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+    Alert,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -18,6 +19,10 @@ type BottomNavProps = {
 
 const BottomNav = ({navigation}:BottomNavProps) => {
 
+    const Notification = () => {
+        Alert.alert("Feature coming soon...")
+    };
+
     return (
         <View style={styles.BottomNav}>
             <TouchableOpacity style={styles.NavButton} onPress={() => navigation.navigate("Home")}>
@@ -26,16 +31,11 @@ const BottomNav = ({navigation}:BottomNavProps) => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.NavButton}>
-                <Feather name="users" size={28} color="#444242" />
-                <Text style={styles.ButtonText}>Friends</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.NavButton}>
                 <AntDesign name="qrcode" size={28} color="#444242" onPress={() => navigation.navigate('QRCodeScanner')} />
                 <Text style={styles.ButtonText}>Scan</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NavButton}>
+            <TouchableOpacity style={styles.NavButton} onPress={() => Notification()}>
                 <Ionicons name="chatbox-ellipses-outline" size={28} color="#444242" />
                 <Text style={styles.ButtonText}>Chat</Text>
             </TouchableOpacity>
