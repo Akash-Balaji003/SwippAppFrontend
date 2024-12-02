@@ -35,7 +35,7 @@ const Home = ({navigation}:HomeProps) => {
     const [searchInput, setSearchInput] = useState('');
     const [searchResults, setSearchResults] = useState<Friend[]>([]); // State for storing search results
 
-    const getFriends = async (id: number | string) => {
+    const getFriends = async (query: number | string) => {
         try {
             const response = await fetch(`https://hchjn6x7-8000.inc1.devtunnels.ms/get-friend?data=${profile?.profile_id}`);
             if (!response.ok) throw new Error('Failed to fetch profile data');

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     Image,
+    Modal,
     Platform,
     SafeAreaView,
     ScrollView,
@@ -47,6 +48,8 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
     const {QRResult} = route.params;
     const { profile } = useProfile();
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+    const [isModalVisible, setIsModalVisible] = useState(true); // Modal visibility
+    const [remarks, setRemarks] = useState<string>('');
 
     useEffect(() => {
         // Assuming QRResult is a JSON string
@@ -55,10 +58,13 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
     }, [QRResult]); // Depend on QRResult to update when it changes
 
     useEffect(() => {
-        // Call the API when userInfo is set and has a profileId
+        const data = typeof QRResult === 'string' ? JSON.parse(QRResult) : QRResult;
+        setUserInfo(data);
+    }, [QRResult]);
+
+    const handleAddFriend = () => {
         if (userInfo && profile) {
-            const url = `https://hchjn6x7-8000.inc1.devtunnels.ms/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}`;
-            
+            const url = `https://hchjn6x7-8000.inc1.devtunnels.ms/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks}`;
             fetch(url)
                 .then((response) => {
                     if (!response.ok) {
@@ -68,16 +74,39 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
                 })
                 .then((data) => {
                     console.log('Friend added successfully:', data);
+                    setIsModalVisible(false); // Close the modal after API call
                 })
                 .catch((error) => {
                     console.error('Error adding friend:', error);
                 });
         }
-    }, [userInfo, profile]);
+    };
     
 
     return (
         <SafeAreaView style={styles.container}>
+
+            {/* Modal for remarks */}
+            <Modal visible={isModalVisible} animationType="slide" transparent>
+                <View style={styles2.modalContainer}>
+                    <View style={styles2.modalContent}>
+                        <Text style={styles2.modalTitle}>Add Remarks</Text>
+                        <TextInput
+                            style={styles2.remarksInput}
+                            placeholder="Enter your remarks"
+                            value={remarks}
+                            onChangeText={setRemarks}
+                        />
+                        <TouchableOpacity
+                            style={styles2.submitButton}
+                            onPress={handleAddFriend}
+                        >
+                            <Text style={styles2.submitButtonText}>Submit</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
             <View style={styles.Card}>
                 {userInfo ? (
                     <>
@@ -232,6 +261,46 @@ const styles = StyleSheet.create({
     ButtonText: {
         color: '#444242',
         fontSize: 12,
+    },
+});
+
+const styles2 = StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: '#FFF',
+        padding: 20,
+        borderRadius: 10,
+        width: '80%',
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color:"black"
+    },
+    remarksInput: {
+        width: '100%',
+        borderWidth: 1,
+        borderColor: '#CCC',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 15,
+        color:"black"
+    },
+    submitButton: {
+        backgroundColor: '#007BFF',
+        padding: 10,
+        borderRadius: 5,
+    },
+    submitButtonText: {
+        color: '#FFF',
+        fontSize: 16,
     },
 });
 
