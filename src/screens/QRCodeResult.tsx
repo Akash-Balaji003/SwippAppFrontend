@@ -64,7 +64,7 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
 
     const handleAddFriend = () => {
         if (userInfo && profile) {
-            const url = `https://hchjn6x7-8000.inc1.devtunnels.ms/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks}`;
+            const url = `https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks}`;
             fetch(url)
                 .then((response) => {
                     if (!response.ok) {

@@ -13,7 +13,7 @@ const Profiles = ({ route, navigation }: ProfilesProps) => {
 
     const selectProfile = async (id: number) => {
         try {
-            const response = await fetch(`https://hchjn6x7-8000.inc1.devtunnels.ms/profile-data?data=${id}`);
+            const response = await fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/profile-data?data=${id}`);
             if (!response.ok) throw new Error('Failed to fetch profile data');
             const profileData = await response.json();
 

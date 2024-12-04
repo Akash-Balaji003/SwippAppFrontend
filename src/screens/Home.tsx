@@ -37,7 +37,7 @@ const Home = ({navigation}:HomeProps) => {
 
     const getFriends = async (query: number | string) => {
         try {
-            const response = await fetch(`https://hchjn6x7-8000.inc1.devtunnels.ms/get-friend?data=${profile?.profile_id}`);
+            const response = await fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/get-friend?data=${profile?.profile_id}`);
             if (!response.ok) throw new Error('Failed to fetch profile data');
             const friendData = await response.json();
             console.log('data', friendData);
@@ -111,7 +111,7 @@ const Home = ({navigation}:HomeProps) => {
 
                 <View style={styles.CardsHolder}>
 
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("Login")}>
+                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("EditCard")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
                                 <Text style={{color: "#0077B6"}}>EDIT</Text> YOUR CARD

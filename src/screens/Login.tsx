@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }: LoginProps) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://hchjn6x7-8000.inc1.devtunnels.ms/login', {
+      const response = await fetch('https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

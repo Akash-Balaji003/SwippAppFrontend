@@ -31,7 +31,7 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
 
     const registerUser = async() => {
         try {
-            const response = await fetch('https://hchjn6x7-8000.inc1.devtunnels.ms/register', {
+            const response = await fetch('https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

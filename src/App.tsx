@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ProfileProvider } from './components/ProfileContext';
 
 import Home from './screens/Home';
+import EditCard from './screens/EditCard';
 import ViewCard from './screens/ViewCard';
 import BottomNav from './components/BottomNav';
 import QRCodeScanner from './screens/QrScannerScreen';
@@ -14,6 +15,7 @@ import AboutYou from './screens/AboutYou';
 import AboutCompany from './screens/AboutCompany';
 import Profiles from './screens/Profiles';
 import QRCodeResult from './screens/QRCodeResult'
+
 
 enableScreens(); 
 
@@ -25,6 +27,7 @@ export type RootStackParamList = {
         profileIds: number[];
         profileTitles: string[];
     };
+    EditCard: undefined;
     ViewCard: undefined;
     BottomNav: undefined;
     QRCodeScanner: undefined;
@@ -58,6 +61,7 @@ function App(): React.JSX.Element {
                 <Stack.Navigator initialRouteName='Login'>
                     <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
                     <Stack.Screen name='ViewCard' component={ViewCard} options={{ headerShown: false }} />
+                    <Stack.Screen name='EditCard' component={EditCard} options={{ headerShown: false }} />
                     <Stack.Screen name='BottomNav' component={BottomNav} options={{ headerShown: false }} />
                     <Stack.Screen name='QRCodeScanner' component={QRCodeScanner} options={{ headerShown: false }} />
                     <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />

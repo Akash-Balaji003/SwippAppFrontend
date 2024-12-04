@@ -5,7 +5,7 @@ import {
     Modal,
     SafeAreaView,
     StyleSheet,
-    Text,
+    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -15,20 +15,36 @@ import { RootStackParamList } from '../App';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../components/ProfileContext';
 
-type ViewCardProps = NativeStackScreenProps<RootStackParamList, 'ViewCard'> 
+type EditCardProps = NativeStackScreenProps<RootStackParamList, 'EditCard'>;
 
-const ViewCard = ({navigation}: ViewCardProps) => {
+const ViewCard = ({ navigation }: EditCardProps) => {
     const { profile } = useProfile();
+
+    // State for editable fields
+    const [profileTitle, setProfileTitle] = useState(profile?.profile_title || '');
+    const [commonName, setCommonName] = useState(profile?.common_name || '');
+    const [qualification, setQualification] = useState('qualification');
+    const [designation, setDesignation] = useState('designation');
+    const [companyName, setCompanyName] = useState(profile?.company_name || '');
+    const [entitySubname, setEntitySubname] = useState('entitySubname');
+    const [primaryPhone, setPrimaryPhone] = useState(profile?.primary_phone || '');
+    const [email1, setEmail1] = useState(profile?.email1 || '');
+    const [secondaryPhone, setSecondaryPhone] = useState(profile?.secondary_phone || '');
+    const [email2, setEmail2] = useState(profile?.email2 || '');
+    const [address1, setAddress1] = useState(profile?.address1 || '');
+    const [city, setCity] = useState(profile?.city || '');
+    const [pincode, setPincode] = useState(profile?.pincode || '');
+    const [country, setCountry] = useState(profile?.country || '');
     const [qrCode, setQrCode] = useState<string | null>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const getQR = async (id: number) => {
         try {
-            const response = await fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/get-qr?data=${id}`);
+            const response = await fetch(`https://hchjn6x7-8000.inc1.devtunnels.ms/get-qr?data=${id}`);
             if (!response.ok) throw new Error('Failed to fetch QR code');
             const QRcode = await response.json();
             setQrCode(QRcode.qr_code_base64);
-            setIsModalVisible(true);  // Show the modal with the QR code
+            setIsModalVisible(true); // Show the modal with the QR code
         } catch (error) {
             Alert.alert('Error', 'Unable to fetch QR code. Please try again later.');
             console.error(error);
@@ -37,44 +53,117 @@ const ViewCard = ({navigation}: ViewCardProps) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={{ color: 'black', alignSelf:'center', marginTop:'5%', fontSize:32 }}>{profile?.profile_title}</Text>
+            <TextInput
+                style={{ color: 'black', alignSelf:'center', marginTop:'5%', fontSize:32 }}
+                value={profileTitle}
+                onChangeText={setProfileTitle}
+                placeholder="Profile Title"
+            />
             <View style={styles.Card}>
-            <View style={styles2.header}>
+                <View style={styles2.header}>
                     <View style={styles2.imageContainer}>
                         <View style={styles2.userImage} />
-                        <Text style={styles2.imageText}>userImage</Text>
+                        <TextInput
+                            style={styles2.imageText}
+                            value="userImage"
+                            editable={false}
+                        />
                     </View>
                     <View style={styles2.logoContainer}>
-                        <Text style={styles2.logoText}>logo</Text>
+                        <TextInput
+                            style={styles2.logoText}
+                            value="logo"
+                            editable={false}
+                        />
                     </View>
                 </View>
 
                 {/* Info Section */}
                 <View style={styles2.infoSection}>
-                    <Text style={styles2.name}>{profile?.common_name}</Text>
-                    <Text style={styles2.qualification}>qualification</Text>
-                    <Text style={styles2.designation}>designation</Text>
-                    <Text style={styles2.entityName}>{profile?.company_name}</Text>
-                    <Text style={styles2.entitySubname}>entitySubname</Text>
+                    <TextInput
+                        style={styles2.name}
+                        value={commonName}
+                        onChangeText={setCommonName}
+                        placeholder="Name"
+                    />
+                    <TextInput
+                        style={styles2.qualification}
+                        value={qualification}
+                        onChangeText={setQualification}
+                        placeholder="Qualification"
+                    />
+                    <TextInput
+                        style={styles2.designation}
+                        value={designation}
+                        onChangeText={setDesignation}
+                        placeholder="Designation"
+                    />
+                    <TextInput
+                        style={styles2.entityName}
+                        value={companyName}
+                        onChangeText={setCompanyName}
+                        placeholder="Company Name"
+                    />
+                    <TextInput
+                        style={styles2.entitySubname}
+                        value={entitySubname}
+                        onChangeText={setEntitySubname}
+                        placeholder="Entity Subname"
+                    />
 
                     {/* Contact Information */}
                     <View style={styles2.contactContainer}>
-                        <Text style={styles2.entityName}>{profile?.primary_phone}</Text>
-                        <Text style={styles2.entityName}>{profile?.email1}</Text>
-                        <Text style={styles2.entityName}>{profile?.secondary_phone}</Text>
-                        <Text style={styles2.entityName}>{profile?.email2}</Text>
+                        <TextInput
+                            style={styles2.entityName}
+                            value={primaryPhone}
+                            onChangeText={setPrimaryPhone}
+                            placeholder="Primary Phone"
+                        />
+                        <TextInput
+                            style={styles2.entityName}
+                            value={email1}
+                            onChangeText={setEmail1}
+                            placeholder="Email 1"
+                        />
+                        <TextInput
+                            style={styles2.entityName}
+                            value={secondaryPhone}
+                            onChangeText={setSecondaryPhone}
+                            placeholder="Secondary Phone"
+                        />
+                        <TextInput
+                            style={styles2.entityName}
+                            value={email2}
+                            onChangeText={setEmail2}
+                            placeholder="Email 2"
+                        />
                     </View>
 
                     {/* Address Section */}
                     <View style={styles2.addressContainer}>
-                        <Text style={styles2.entityName}>{profile?.address1}</Text>
-                        <Text style={styles2.entityName}>{profile?.city} | {profile?.pincode} | {profile?.country}</Text>
+                        <TextInput
+                            style={styles2.entityName}
+                            value={address1}
+                            onChangeText={setAddress1}
+                            placeholder="Address"
+                        />
+                        <TextInput
+                            style={styles2.entityName}
+                            value={`${city} | ${pincode} | ${country}`}
+                            onChangeText={(text) => {
+                                const [newCity, newPincode, newCountry] = text.split('|').map((t) => t.trim());
+                                setCity(newCity || '');
+                                setPincode(newPincode || '');
+                                setCountry(newCountry || '');
+                            }}
+                            placeholder="City | Pincode | Country"
+                        />
                     </View>
                 </View>
-                
-                <View style={{flexDirection: 'row', justifyContent: 'center', margin: 5, height:'8%'}}>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'center', margin: 5, height: '8%' }}>
                     <TouchableOpacity
-                        style={{backgroundColor:'green', width:'40%', borderRadius:20, justifyContent:'center'}}
+                        style={{ backgroundColor: 'green', width: '40%', borderRadius: 20, justifyContent: 'center' }}
                         onPress={() => {
                             if (profile?.profile_id !== undefined) {
                                 getQR(profile.profile_id);
@@ -83,7 +172,11 @@ const ViewCard = ({navigation}: ViewCardProps) => {
                             }
                         }}
                     >
-                        <Text style={{color:'black', alignSelf:'center'}}>SHARE</Text>
+                        <TextInput
+                            style={{ color: 'black', alignSelf: 'center' }}
+                            value="SHARE"
+                            editable={false}
+                        />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -103,13 +196,13 @@ const ViewCard = ({navigation}: ViewCardProps) => {
                                 style={styles.qrCodeImage}
                             />
                         ) : (
-                            <Text style={{ color: 'black' }}>Loading...</Text>
+                            <TextInput style={{ color: 'black' }} value="Loading..." editable={false} />
                         )}
                         <TouchableOpacity
                             style={styles.closeButton}
                             onPress={() => setIsModalVisible(false)}
                         >
-                            <Text style={styles.buttonText}>CLOSE</Text>
+                            <TextInput style={styles.buttonText} value="CLOSE" editable={false} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -119,7 +212,7 @@ const ViewCard = ({navigation}: ViewCardProps) => {
             <BottomNav navigation={navigation} />
         </SafeAreaView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
