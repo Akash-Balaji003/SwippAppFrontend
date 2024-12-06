@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
     Alert,
+    Dimensions,
     Image,
     Modal,
     SafeAreaView,
@@ -14,6 +15,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../components/ProfileContext';
+
+const { width, height } = Dimensions.get('window');
+const calculatePercentage = (percentage: number, dimension: number) => (percentage / 100) * dimension;
 
 type ViewCardProps = NativeStackScreenProps<RootStackParamList, 'ViewCard'> 
 
@@ -74,7 +78,7 @@ const ViewCard = ({navigation}: ViewCardProps) => {
                 
                 <View style={{flexDirection: 'row', justifyContent: 'center', margin: 5, height:'8%'}}>
                     <TouchableOpacity
-                        style={{backgroundColor:'green', width:'40%', borderRadius:20, justifyContent:'center'}}
+                        style={styles2.editImageButton}
                         onPress={() => {
                             if (profile?.profile_id !== undefined) {
                                 getQR(profile.profile_id);
@@ -83,7 +87,7 @@ const ViewCard = ({navigation}: ViewCardProps) => {
                             }
                         }}
                     >
-                        <Text style={{color:'black', alignSelf:'center'}}>SHARE</Text>
+                        <Text style={styles.buttonText}>SHARE</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -148,8 +152,10 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     buttonText: {
-        color: 'black',
+        color: '#fff',
         alignSelf: 'center',
+        marginTop:'auto',
+        marginBottom:'auto',
     },
     modalOverlay: {
         flex: 1,
@@ -275,6 +281,21 @@ const styles2 = StyleSheet.create({
         color: '#3A86FF',
         textDecorationLine: 'underline',
     },
+    editImageButton: {
+        marginTop: '2%',
+        backgroundColor: '#007BFF',
+        borderRadius: 8,
+        height:"90%",
+        width: "50%",
+        alignContent:'center'
+      },
+      editImageText: {
+        color: '#fff',
+        fontWeight: 'bold',
+        textAlign:'center',
+        alignSelf:'center',
+        alignContent:'center'
+      },
 });
 
 export default ViewCard;

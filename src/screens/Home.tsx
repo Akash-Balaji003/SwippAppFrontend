@@ -75,33 +75,39 @@ const Home = ({navigation}:HomeProps) => {
                 </TouchableOpacity>
             </View>
 
-            {/* Search Bar */}
-            <View style={styles.SearchBar}>
+            {/* Search Bar Container */}
+            <View style={styles.SearchBarContainer}>
                 <TextInput
                     style={styles.searchInput}
-                    placeholderTextColor='black'
-                    textAlign='left'
+                    placeholderTextColor="black"
+                    textAlign="left"
                     placeholder="Search..."
                     onChangeText={setSearchInput} // Update search input state
                     onSubmitEditing={handleSearch} // Handle search on pressing Enter/Done
                 />
+                {/* Conditional rendering of search results */}
+                {searchResults.length > 0 && (
+                    <View style={styles.searchResultsContainer}>
+                        <FlatList
+                            data={searchResults}
+                            keyExtractor={(item) => item.friend_profile_id.toString()}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    style={styles.resultItem}
+                                    onPress={() => {
+                                        Alert.alert('Friend Selected', item.common_name);
+                                    }}
+                                >
+                                    <Text style={styles.resultText}>{item.common_name}</Text>
+                                    <Text style={styles.resultText}>{item.profile_title}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    </View>
+                )}
             </View>
 
-            {/* Display Search Results as Floating UI */}
-            {searchResults.length > 0 && (
-                <View style={styles.floatingResultsContainer}>
-                    <FlatList
-                        data={searchResults}
-                        keyExtractor={(item) => item.friend_profile_id.toString()}
-                        renderItem={({ item }) => (
-                            <View style={styles.resultItem}>
-                                <Text style={styles.resultText}>{item.common_name}</Text>
-                                <Text style={styles.resultText}>{item.profile_title}</Text>
-                            </View>
-                        )}
-                    />
-                </View>
-            )}
+
 
             {/* Content */}
             <View style={styles.content}>
@@ -226,12 +232,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
 
-    searchInput: {
-        height: 50,
-        color: 'black',
-        fontSize: 18,
-    },
-
     content: {
         flex: 0.9,
         paddingHorizontal: '5%',
@@ -297,36 +297,61 @@ const styles = StyleSheet.create({
         height: 80,
     },
 
-    resultsContainer: {
-        marginVertical: 10, // Adds space between search bar and results
-        marginHorizontal: '5%', // Ensure it aligns with the content
+    SearchBarContainer: {
+        width: '90%',
+        marginHorizontal: 'auto',
+        marginTop: 10,
+        backgroundColor: '#FFF',
+        borderRadius: 15,
+        paddingHorizontal: 15,
+        elevation: 4, // Android shadow
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3,
+        position: 'relative', // Base container is relatively positioned
+        zIndex: 2, // Ensures it appears above other elements
     },
-
-    floatingResultsContainer: {
-        position: 'absolute', 
-        top: '18.5%', 
-        left: '5%', 
-        right: '5%', 
-        backgroundColor: '#FFF', 
-        padding: 10, 
-        borderRadius: 10, 
-        elevation: 5, 
-        zIndex: 10, 
-        maxHeight: '50%',
+    
+    searchInput: {
+        height: 50,
+        color: 'black',
+        fontSize: 18,
     },
-
+    
+    searchResultsContainer: {
+        position: 'absolute',
+        top: 40, // Position results right below the search bar
+        left: 0,
+        right: 0,
+        backgroundColor: '#FFF',
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        elevation: 2, // For Android shadow
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.3,
+        shadowRadius: 0,
+        maxHeight: 300, // Optional: Limit height to prevent overflow
+        zIndex: 3, // Ensure results appear above everything else
+    },
+    
     resultItem: {
         backgroundColor: '#FFF',
         padding: 10,
+        marginLeft:1,
+        marginRight:1,
         borderRadius: 10,
         marginVertical: 5,
-        elevation: 2,
+        elevation: 1,
     },
-
+    
     resultText: {
         fontSize: 16,
         color: '#444242',
     },
+    
+    
 });
 
 
