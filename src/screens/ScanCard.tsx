@@ -13,9 +13,9 @@ import { RootStackParamList } from '../App';
 
 import RNFS from 'react-native-fs';
 
-type QrProps = NativeStackScreenProps<RootStackParamList, 'QRCodeScanner'>;
+type ScanCardProps = NativeStackScreenProps<RootStackParamList, 'ScanCard'>;
 
-const QRCodeScanner = ({ navigation }: QrProps) => {
+const ScanCard = ({ navigation }: ScanCardProps) => {
     const [text, setText] = useState('');
     const [imageUri, setImageUri] = useState('');
     const [showCamera, setShowCamera] = useState<boolean>(false);
@@ -35,27 +35,26 @@ const QRCodeScanner = ({ navigation }: QrProps) => {
         requestPermission();
     }, [navigation]);
 
-    const codeScanner = useCodeScanner({
-        codeTypes: ['qr', 'ean-13'],
-        onCodeScanned: (codes) => {
-            // Filter to get only QR codes
-            const qrCodes = codes.filter(code => code.type === 'qr');
-    
-            if (qrCodes.length > 0) {
-                // Navigate to another screen with the scanned QR code data
-                const qrCodeValue = qrCodes[0].value; // Get the first QR code value
-                console.log(`Scanned QR code data: ${qrCodeValue}`);
-                
-                // Navigate to another screen (e.g., 'QRCodeResult') and pass the QR code value
-                navigation.navigate('QRCodeResult', { QRResult: qrCodeValue });
+    const takePicture = async () => {
+        if (cameraRef.current) {
+            try {
+                const photo = await cameraRef.current.takePhoto();
+                console.log('Photo taken:', photo);
 
-                // Stop scanning
-                setShowCamera(false);
-            } else {
-                console.log('No QR codes scanned.');
+                let imageUriWithPrefix = `file://${photo.path}`;
+                setImageUri(imageUriWithPrefix);
+
+                console.log('Photo path for ML:', imageUriWithPrefix);
+
+                const recognizedTextResult = await TextRecognition.recognize(imageUriWithPrefix); // Perform text recognition
+                const recognizedText = recognizedTextResult.text || '';
+                setText(recognizedText);
+                console.log("Result: ", recognizedText);
+            } catch (error) {
+                console.error('Failed to take photo:', error);
             }
         }
-    });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -66,15 +65,25 @@ const QRCodeScanner = ({ navigation }: QrProps) => {
                         style={StyleSheet.absoluteFill}
                         device={device}
                         isActive={showCamera}
-                        photo={false}
-                        codeScanner={codeScanner}
+                        photo={true}
                     />
+                    {text && (
+                        <View style={{ position: 'absolute', bottom: 100, left: 20, backgroundColor: 'rgba(0, 0, 0, 0.5)', padding: 10 }}>
+                        <Text style={{ color: 'white' }}>{text}</Text>
+                        </View>
+                    )}
                     <View style={styles.overlayContainer}>
                         {/* Scanner Outline */}
                         <View style={styles.scannerOutline} />
 
                         {/* Camera Controls */}
                         <View style={styles.cameraControls}>
+                            <TouchableOpacity
+                                onPress={takePicture}
+                                style={styles.captureButton}
+                            >
+                                <Text style={styles.buttonText}>Capture</Text>
+                            </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => navigation.goBack()}
                                 style={styles.exitButton}
@@ -138,4 +147,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default QRCodeScanner;
+export default ScanCard;

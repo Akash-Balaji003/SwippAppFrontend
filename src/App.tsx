@@ -14,7 +14,8 @@ import AccountCreation from './screens/AccountCreation';
 import AboutYou from './screens/AboutYou';
 import AboutCompany from './screens/AboutCompany';
 import Profiles from './screens/Profiles';
-import QRCodeResult from './screens/QRCodeResult'
+import QRCodeResult from './screens/QRCodeResult';
+import ScanCard from './screens/ScanCard';
 
 
 enableScreens(); 
@@ -50,6 +51,7 @@ export type RootStackParamList = {
     QRCodeResult: {
         QRResult: string | undefined;
     };
+    ScanCard: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -70,6 +72,7 @@ function App(): React.JSX.Element {
                     <Stack.Screen name='AboutYou' component={AboutYou} options={{ headerShown: false }} />
                     <Stack.Screen name='AboutCompany' component={AboutCompany} options={{ headerShown: false }} />
                     <Stack.Screen name='QRCodeResult' component={QRCodeResult} options={{ headerShown: false }} />
+                    <Stack.Screen name='ScanCard' component={ScanCard} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </ProfileProvider>
