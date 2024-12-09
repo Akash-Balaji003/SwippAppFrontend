@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  ToastAndroid,
 } from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -46,9 +47,11 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       } else {
         // Set error message from backend response
         setErrorMessage(data.detail || 'Invalid mobile number or password');
+        ToastAndroid.show('Invalid mobile number or password', ToastAndroid.SHORT);
       }
     } catch (error) {
       setErrorMessage('Failed to connect to the server. Please try again later.');
+      ToastAndroid.show('Failed to connect to the server. Please try again later.', ToastAndroid.SHORT);
     }
   };
   

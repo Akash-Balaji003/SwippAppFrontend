@@ -133,7 +133,7 @@ const Home = ({navigation}:HomeProps) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.Card}>
+                    <TouchableOpacity style={styles.Card} onPress={()=> Alert.alert("Feature coming soon...")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
                                 <Text style={{color: "#0077B6"}}>SHARE</Text> YOUR CARD
@@ -169,7 +169,7 @@ const Home = ({navigation}:HomeProps) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.Card}>
+                    <TouchableOpacity style={styles.Card} onPress={()=> Alert.alert("Feature coming soon...")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
                                 <Text style={{color: "#0077B6"}}>CONNECT</Text> WITH OTHER PEOPLE

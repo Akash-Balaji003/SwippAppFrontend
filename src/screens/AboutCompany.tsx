@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    ToastAndroid,
     TouchableOpacity,
     View,
     useWindowDimensions
@@ -59,10 +60,12 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
 
             if (response.ok){
                 navigation.navigate("Login");
+                ToastAndroid.show('Account Created Successfully', ToastAndroid.SHORT);
             }
         }
         catch (error) {
             setErrorMessage('Failed to connect to the server. Please try again later.');
+            ToastAndroid.show('Failed to connect to the server. Please try again later.', ToastAndroid.SHORT);
         }
     };
 
