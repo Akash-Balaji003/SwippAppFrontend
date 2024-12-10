@@ -54,7 +54,6 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       ToastAndroid.show('Failed to connect to the server. Please try again later.', ToastAndroid.SHORT);
     }
   };
-  
 
   return (
     <View style={styles.container}>

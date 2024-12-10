@@ -12,10 +12,34 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
 import RNFS from 'react-native-fs';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 type ScanCardProps = NativeStackScreenProps<RootStackParamList, 'ScanCard'>;
 
 const ScanCard = ({ navigation }: ScanCardProps) => {
+
+
+    
+    const [designations, setDesignations] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchDesignations = async () => {
+            const response = await fetch('https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/get-designations');
+            const data = await response.json();
+            console.log('Fetched Designations:', data);
+            setDesignations(data);
+        };
+
+        fetchDesignations();
+    }, []);
+
+    const isDesignation = (line: string): boolean => {
+        const lowerCaseLine = line.toLowerCase();
+        return designations.some((designation) =>
+            lowerCaseLine.includes(designation.toLowerCase())
+        );
+    };
+
     const [text, setText] = useState('');
     const [imageUri, setImageUri] = useState('');
     const [showCamera, setShowCamera] = useState<boolean>(false);
@@ -40,20 +64,74 @@ const ScanCard = ({ navigation }: ScanCardProps) => {
             try {
                 const photo = await cameraRef.current.takePhoto();
                 console.log('Photo taken:', photo);
-
+    
                 let imageUriWithPrefix = `file://${photo.path}`;
-                setImageUri(imageUriWithPrefix);
-
-                console.log('Photo path for ML:', imageUriWithPrefix);
-
-                const recognizedTextResult = await TextRecognition.recognize(imageUriWithPrefix); // Perform text recognition
+                console.log('Original Photo Path:', imageUriWithPrefix);
+    
+                // Define cropping rectangle based on the scanner outline dimensions and position
+                const cropWidth = photo.width * 0.7; // Adjust based on the scanner outline's size
+                const cropHeight = photo.height * 0.4;
+                const cropX = (photo.width - cropWidth) / 2;
+                const cropY = (photo.height - cropHeight) / 2;
+    
+                // Use the cropping library
+                const croppedImage = await ImageCropPicker.openCropper({
+                    path: imageUriWithPrefix,
+                    width: cropWidth,
+                    height: cropHeight,
+                    cropperCircleOverlay: false,
+                    cropping: true,
+                    cropperToolbarTitle: 'Crop Image',
+                    mediaType: 'photo'
+                });
+    
+                console.log('Cropped Image Path:', croppedImage.path);
+                setImageUri(`file://${croppedImage.path}`);
+    
+                // Perform text recognition on the cropped image
+                const recognizedTextResult = await TextRecognition.recognize(`file://${croppedImage.path}`);
                 const recognizedText = recognizedTextResult.text || '';
                 setText(recognizedText);
                 console.log("Result: ", recognizedText);
+                const finalResult = classifyText(recognizedText);
+                navigation.navigate("ScannedCardScreen", {
+                    Name: finalResult.name,
+                    designation: finalResult.designation,
+                    phone_number: finalResult.phone,
+                    email_id: finalResult.email
+                });
+    
             } catch (error) {
-                console.error('Failed to take photo:', error);
+                console.error('Failed to take or process photo:', error);
             }
         }
+    }; 
+    
+    const classifyText = (text: string) => {
+        const lines = text.split('\n').map((line: string) => line.trim());
+        const result = {
+            name: '',
+            phone: '',
+            email: '',
+            designation: '',
+        };
+      
+        const phoneRegex = /^\+?[0-9]{1,4}[-\s]?[0-9]{3,5}[-\s]?[0-9]{5,10}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      
+        lines.forEach(line => {
+            if (emailRegex.test(line)) {
+                result.email = line;
+            } else if (phoneRegex.test(line)) {
+                result.phone = line;
+            } else if (isDesignation(line)) {
+                result.designation = line;
+            } else if (!result.name) {
+                result.name = line;  // Assume the first unmatched line is the name
+            }
+        });
+        console.log("Results: ", result)
+        return result;
     };
 
     return (
@@ -148,3 +226,20 @@ const styles = StyleSheet.create({
 });
 
 export default ScanCard;
+
+
+
+
+/*
+
+
+
+
+
+
+Product Manager
+Akash
++91 75500 47716
+example.@gmail.com
+
+*/
