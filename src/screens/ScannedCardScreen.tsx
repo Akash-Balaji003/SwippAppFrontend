@@ -32,22 +32,27 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
 
     const { Name, designation, phone_number, email_id } = route.params;
 
-    const [name, setName] = useState(Name);
-    const [cardDesignation, setCardDesignation] = useState(designation);
-    const [primaryPhone, setPrimaryPhone] = useState(phone_number);
-    const [email1, setPrimay_email] = useState(email_id);
+    const [name, setName] = useState(Name || "Required");
+    const [cardDesignation, setCardDesignation] = useState(designation || "NULL");
+    const [primaryPhone, setPrimaryPhone] = useState(phone_number || "Required *");
+    const [email1, setPrimay_email] = useState(email_id || "Required *");
 
     const [cardTitle, setTitle] = useState("");
     const [qualification, setQualification] = useState("");
     const [companyName, setCompanyName] = useState("");
     const [secondaryPhone, setSecondaryPhone] = useState("");
     const [email2, setEmail2] = useState("");
+
     const [cardAddress, setAddress1] = useState("");
     const [cardCity, setCity] = useState("");
     const [cardPincode, setPincode] = useState("");
     const [cardCountry, setCountry] = useState("");
 
     const storeCard = async() => {
+        if (!name.trim() || !cardTitle.trim() || !companyName.trim() || !primaryPhone.trim() || !email1.trim() || !cardAddress.trim() || !cardCity.trim() || !cardPincode.trim() || !cardCountry.trim()) {
+            Alert.alert("Validation Error", "All required fields must be filled. Please check and try again.");
+            return;
+        }
         try {
             const response = await fetch('https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/store-card', {
                 method: 'POST',
@@ -94,7 +99,7 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
             {/* Header */}
             <View style={[styles.header]}>
                 <View>
-                    <Text style={styles.label}>TITLE</Text>
+                    <Text style={styles.label}>TITLE <Text style={styles.required}>*</Text></Text>
                     <TextInput
                         style={[styles.input,{ width: calculatePercentage(60, width)}]}
                         placeholder="Give a title for the card"
@@ -116,7 +121,7 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                     <View style={styles.profileDetails}>
 
                         {/* Name Input */}
-                        <Text style={styles.label}>NAME</Text>
+                        <Text style={styles.label}>NAME <Text style={styles.required}>*</Text></Text>
                         <TextInput
                             style={styles.input}
                             placeholder="Enter name"
@@ -149,7 +154,7 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                         onChangeText={setQualification}
                     />
 
-                    <Text style={styles.label}>COMPANY NAME</Text>
+                    <Text style={styles.label}>COMPANY NAME <Text style={styles.required}>*</Text></Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Enter company name"
@@ -217,7 +222,7 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
 
             {/* Address Section */}
             <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
-                <Text style={styles.sectionTitle}>Address</Text>
+                <Text style={styles.sectionTitle}>Address <Text style={styles.required}>*</Text></Text>
                 <View style={[styles.Address1Container]}>
                     <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                     <TextInput
@@ -411,6 +416,10 @@ const styles = StyleSheet.create({
       fontSize: calculatePercentage(3.5, width),
       color: '#333',
     },
+    required: {
+        color: 'red',
+        fontWeight: 'bold',
+    },  
 });
 
 export default ScannedCardScreen;
