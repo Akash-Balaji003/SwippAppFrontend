@@ -40,7 +40,7 @@ const BottomNav = ({navigation}:BottomNavProps) => {
                 <Text style={styles.ButtonText}>Chat</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.NavButton} onPress={() => Notification()}>
+            <TouchableOpacity style={styles.NavButton} onPress={() => navigation.navigate('UserProfile')}>
                 <Feather name="user" size={28} color="#444242" />
                 <Text style={styles.ButtonText}>Profile</Text>
             </TouchableOpacity>

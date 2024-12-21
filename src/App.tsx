@@ -17,6 +17,7 @@ import Profiles from './screens/Profiles';
 import QRCodeResult from './screens/QRCodeResult';
 import ScanCard from './screens/ScanCard';
 import ScannedCardScreen from './screens/ScannedCardScreen';
+import UserProfile from './screens/UserProfile';
 
 import { getUserData } from './tasks/Storage';
 import { ActivityIndicator, View } from 'react-native';
@@ -62,6 +63,7 @@ export type RootStackParamList = {
         phone_number: string | null;
         email_id: string | null;
     };
+    UserProfile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -123,6 +125,7 @@ function App(): React.JSX.Element {
                     <Stack.Screen name='QRCodeResult' component={QRCodeResult} options={{ headerShown: false }} />
                     <Stack.Screen name='ScanCard' component={ScanCard} options={{ headerShown: false }} />
                     <Stack.Screen name='ScannedCardScreen' component={ScannedCardScreen} options={{ headerShown: false }} />
+                    <Stack.Screen name='UserProfile' component={UserProfile} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </NavigationContainer>
         </ProfileProvider>
