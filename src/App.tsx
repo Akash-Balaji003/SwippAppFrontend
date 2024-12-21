@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { enableScreens } from 'react-native-screens'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ProfileProvider } from './components/ProfileContext';
+import { ProfileProvider, useProfile } from './components/ProfileContext';
 
 import Home from './screens/Home';
 import EditCard from './screens/EditCard';
@@ -17,6 +17,9 @@ import Profiles from './screens/Profiles';
 import QRCodeResult from './screens/QRCodeResult';
 import ScanCard from './screens/ScanCard';
 import ScannedCardScreen from './screens/ScannedCardScreen';
+
+import { getUserData } from './tasks/Storage';
+import { ActivityIndicator, View } from 'react-native';
 
 
 enableScreens(); 
@@ -63,11 +66,50 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const AppWrapper = () => {
+    const { setProfile } = useProfile();
+
+    useEffect(() => {
+
+        const fetchUserData = async () => {
+            const userData = await getUserData(); // Fetch all user data (not just user_id)
+            
+            if (userData) {
+                console.log('User Data found:', userData);
+                setProfile(userData);
+            }
+        };
+        fetchUserData();
+
+    }, []);
+    return null;
+};
+
 function App(): React.JSX.Element {
+    
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);  // Will hold login state
+
+    useEffect(() => {
+        const checkUserStatus = async () => {
+            const userData = await getUserData();  // Fetch user data
+            setIsLoggedIn(!!userData);  // If user data exists, set logged in to true
+        };
+        
+        checkUserStatus();  // Check on app start
+    }, []);
+
+    if (isLoggedIn === null) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" color="black" />
+            </View>
+        );
+    }
     return (
         <ProfileProvider>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName='Login'>
+                <AppWrapper />
+                <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
                     <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
                     <Stack.Screen name='ViewCard' component={ViewCard} options={{ headerShown: false }} />
                     <Stack.Screen name='EditCard' component={EditCard} options={{ headerShown: false }} />

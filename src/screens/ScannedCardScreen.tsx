@@ -9,6 +9,7 @@ import {
     StyleSheet,
     Text,
     TextInput,
+    ToastAndroid,
     TouchableOpacity,
     View,
 } from 'react-native';
@@ -16,8 +17,8 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import BottomNav from '../components/BottomNav';
-import { useProfile } from '../components/ProfileContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useProfile } from '../components/ProfileContext';
 
 const { width, height } = Dimensions.get('window');
 const calculatePercentage = (percentage: number, dimension: number) => (percentage / 100) * dimension;
@@ -26,28 +27,84 @@ type ScannedCardProps = NativeStackScreenProps<RootStackParamList, 'ScannedCardS
 
 
 const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
+    
     const { profile } = useProfile();
 
     const { Name, designation, phone_number, email_id } = route.params;
 
-    // State for editable fields
-    const [user_qualification, setQualification] = useState(profile?.qualification);
-    const [companyName, setCompanyName] = useState(profile?.company_name);
-    const [secondaryPhone, setSecondaryPhone] = useState(profile?.secondary_phone);
-    const [secondary_email, setEmail2] = useState(profile?.email2);
-    const [address, setAddress1] = useState(profile?.address1);
-    const [city, setCity] = useState(profile?.city);
-    const [pincode, setPincode] = useState(profile?.pincode);
-    const [country, setCountry] = useState(profile?.country);
+    const [name, setName] = useState(Name);
+    const [cardDesignation, setCardDesignation] = useState(designation);
+    const [primaryPhone, setPrimaryPhone] = useState(phone_number);
+    const [email1, setPrimay_email] = useState(email_id);
+
+    const [cardTitle, setTitle] = useState("");
+    const [qualification, setQualification] = useState("");
+    const [companyName, setCompanyName] = useState("");
+    const [secondaryPhone, setSecondaryPhone] = useState("");
+    const [email2, setEmail2] = useState("");
+    const [cardAddress, setAddress1] = useState("");
+    const [cardCity, setCity] = useState("");
+    const [cardPincode, setPincode] = useState("");
+    const [cardCountry, setCountry] = useState("");
+
+    const storeCard = async() => {
+        try {
+            const response = await fetch('https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/store-card', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+
+                    profile_id: profile?.profile_id,
+                    name: name,
+                    card_designation: cardDesignation,
+                    user_qualification: qualification,
+
+                    title: cardTitle,
+                    primary_phone: primaryPhone,
+                    primary_email: email1,
+
+                    company_name: companyName,
+                    address: cardAddress,
+                    city: cardCity,
+                    pincode: cardPincode,
+                    country: cardCountry,
+
+                    secondary_phone: secondaryPhone,  
+                    secondary_email: email2,                     
+                }),
+            });
+
+            if (response.ok){
+                navigation.navigate("Home");
+                ToastAndroid.show('Card Stored Successfully', ToastAndroid.SHORT);
+            }
+        }
+        catch (error) {
+            ToastAndroid.show('Failed to connect to the server. Please try again later.', ToastAndroid.SHORT);
+        }
+    };
+
+
 
     return (
         <SafeAreaView style={styles.safeArea}>
 
             {/* Header */}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>{profile?.profile_title}</Text>
-                <TouchableOpacity style={styles.doneButton}>
-                    <Text style={styles.doneButtonText}>DONE</Text>
+            <View style={[styles.header]}>
+                <View>
+                    <Text style={styles.label}>TITLE</Text>
+                    <TextInput
+                        style={[styles.input,{ width: calculatePercentage(60, width)}]}
+                        placeholder="Give a title for the card"
+                        placeholderTextColor="#999"
+                        value={cardTitle || ""}
+                        onChangeText={setTitle}
+                    />
+                </View>
+                <TouchableOpacity style={styles.doneButton} onPress={storeCard}>
+                    <Text style={styles.doneButtonText}>Save</Text>
                 </TouchableOpacity>
             </View>
 
@@ -62,34 +119,21 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                         <Text style={styles.label}>NAME</Text>
                         <TextInput
                             style={styles.input}
-                            placeholder={profile?.common_name}
+                            placeholder="Enter name"
                             placeholderTextColor="#999"
-                            value={Name || "NULL"}
-                            editable={false}
+                            value={name || ""}
+                            onChangeText={setName}
                         />
 
                         {/* Designation Input */}
                         <Text style={styles.label}>DESIGNATION</Text>
                         <TextInput
                                 style={styles.input}
-                                placeholder="Enter your designation"
+                                placeholder="Enter designation"
                                 placeholderTextColor="#999"
-                                value={designation || "NULL"}
-                                editable={false}
+                                value={cardDesignation || ""}
+                                onChangeText={setCardDesignation}
                             />
-                    </View>
-
-                    {/* Profile Image Section */}
-                    <View style={styles.profileImageSection}>
-                        <Image
-                            source={{ uri: 'https://via.placeholder.com/100' }}
-                            style={styles.profileImage}
-                        />
-                        <TouchableOpacity style={styles.editImageButton} onPress={() => {
-                                        Alert.alert('Coming soon...');
-                                    }}>
-                            <Text style={styles.editImageText}>Edit Image</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -99,18 +143,18 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                 <Text style={styles.label}>QUALIFICATIONS</Text>
                 <TextInput
                         style={styles.input}
-                        placeholder="Enter your qualifications"
+                        placeholder="Enter qualifications"
                         placeholderTextColor="#999"
-                        value={user_qualification || ''}
+                        value={qualification || ''}
                         onChangeText={setQualification}
                     />
 
                     <Text style={styles.label}>COMPANY NAME</Text>
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter your company name"
+                        placeholder="Enter company name"
                         placeholderTextColor="#999"
-                        value={companyName || ''}
+                        value={companyName || ""}
                         onChangeText={setCompanyName}
                     />
             </View>
@@ -126,8 +170,8 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                             style={styles.iconInput}
                             placeholder="Enter primary phone"
                             placeholderTextColor="#999"
-                            value={phone_number || "NULL"}
-                            editable={false}
+                            value={primaryPhone || ""}
+                            onChangeText={setPrimaryPhone}
                         />
                     </View>
 
@@ -154,8 +198,8 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                             style={styles.iconInput}
                             placeholder="Enter primary email"
                             placeholderTextColor="#999"
-                            value={email_id || "NULL"}
-                            editable={false}
+                            value={email1 || ""}
+                            onChangeText={setPrimay_email}
                         />
                     </View>
 
@@ -165,7 +209,7 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                             style={styles.iconInput}
                             placeholder="Enter secondary email"
                             placeholderTextColor="#999"
-                            value={secondary_email || ''}
+                            value={email2 ||''}
                             onChangeText={setEmail2}
                         />
                 </View>
@@ -178,10 +222,10 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                     <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                     <TextInput
                             style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter your address"
+                            placeholder="Enter address"
                             placeholderTextColor="#999"
                             multiline
-                            value={address || ''}
+                            value={cardAddress || ''}
                             onChangeText={setAddress1}
                         />
                 </View>
@@ -190,9 +234,9 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                         <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                         <TextInput
                             style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter your city"
+                            placeholder="Enter city"
                             placeholderTextColor="#999"
-                            value={city || ''}
+                            value={cardCity || ''}
                             onChangeText={setCity}
                         />
                     </View>
@@ -200,9 +244,9 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                         <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                         <TextInput
                             style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter your pincode"
+                            placeholder="Enter pincode"
                             placeholderTextColor="#999"
-                            value={pincode || ''}
+                            value={cardPincode || ''}
                             onChangeText={setPincode}
                         />
                     </View>
@@ -211,9 +255,9 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                     <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                     <TextInput
                         style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                        placeholder="Enter your country"
+                        placeholder="Enter country"
                         placeholderTextColor="#999"
-                        value={country || ''}
+                        value={cardCountry || ''}
                         onChangeText={setCountry}
                     />
                 </View>
@@ -242,7 +286,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       height:'auto',
       marginTop: calculatePercentage(2, height),
-      marginBottom: calculatePercentage(3, height),
+      marginBottom: calculatePercentage(0.1, height),
     },
     headerText: { color: 'black', alignSelf:'center', fontSize:32 },
     doneButton: {
@@ -250,6 +294,7 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       paddingVertical: calculatePercentage(2, height),
       paddingHorizontal: calculatePercentage(4, width),
+      marginBottom: calculatePercentage(1, height),
     },
     doneButtonText: {
       color: '#fff',
@@ -366,6 +411,6 @@ const styles = StyleSheet.create({
       fontSize: calculatePercentage(3.5, width),
       color: '#333',
     },
-  });
+});
 
 export default ScannedCardScreen;

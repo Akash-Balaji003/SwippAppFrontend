@@ -11,14 +11,11 @@ import TextRecognition from '@react-native-ml-kit/text-recognition';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
-import RNFS from 'react-native-fs';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
 type ScanCardProps = NativeStackScreenProps<RootStackParamList, 'ScanCard'>;
 
 const ScanCard = ({ navigation }: ScanCardProps) => {
-
-
     
     const [designations, setDesignations] = useState<string[]>([]);
 
@@ -58,6 +55,15 @@ const ScanCard = ({ navigation }: ScanCardProps) => {
 
         requestPermission();
     }, [navigation]);
+
+    const manualEntry = async() => {
+        navigation.navigate("ScannedCardScreen", {
+            Name: "",
+            designation: "",
+            phone_number: "",
+            email_id: ""
+        });
+    };
 
     const takePicture = async () => {
         if (cameraRef.current) {
@@ -156,18 +162,30 @@ const ScanCard = ({ navigation }: ScanCardProps) => {
 
                         {/* Camera Controls */}
                         <View style={styles.cameraControls}>
-                            <TouchableOpacity
-                                onPress={takePicture}
-                                style={styles.captureButton}
-                            >
-                                <Text style={styles.buttonText}>Capture</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => navigation.goBack()}
-                                style={styles.exitButton}
-                            >
-                                <Text style={styles.buttonText}>Exit</Text>
-                            </TouchableOpacity>
+                            <View style={{flexDirection:"row", justifyContent:"space-around"}}>
+                                <TouchableOpacity
+                                    onPress={manualEntry}
+                                    style={[styles.captureButton, {backgroundColor:"green"}]}
+                                >
+                                    <Text style={[styles.buttonText]}>Enter Manually</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    onPress={takePicture}
+                                    style={[styles.captureButton]}
+                                >
+                                    <Text style={[styles.buttonText]}>Capture</Text>
+                                </TouchableOpacity>
+                            </View>
+
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => navigation.goBack()}
+                                    style={[styles.exitButton, {width:"25%", alignSelf:"center"}]}
+                                >
+                                    <Text style={styles.buttonText}>Exit</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -196,11 +214,11 @@ const styles = StyleSheet.create({
     },
     cameraControls: {
         position: 'absolute',
-        bottom: 50,
-        flexDirection: 'row',
+        bottom: 70,
         justifyContent: 'space-around',
         width: '100%',
-        paddingHorizontal: 20,
+        paddingHorizontal: 40,
+        gap:20
     },
     captureButton: {
         backgroundColor: '#00A4E4',
@@ -222,24 +240,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
+        textAlign:"center"
     },
 });
 
 export default ScanCard;
-
-
-
-
-/*
-
-
-
-
-
-
-Product Manager
-Akash
-+91 75500 47716
-example.@gmail.com
-
-*/

@@ -7,17 +7,12 @@ import {
     StyleSheet,
 } from 'react-native';
 import { Camera, useCameraDevice, useCodeScanner } from 'react-native-vision-camera';
-import TextRecognition from '@react-native-ml-kit/text-recognition';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
-
-import RNFS from 'react-native-fs';
 
 type QrProps = NativeStackScreenProps<RootStackParamList, 'QRCodeScanner'>;
 
 const QRCodeScanner = ({ navigation }: QrProps) => {
-    const [text, setText] = useState('');
-    const [imageUri, setImageUri] = useState('');
     const [showCamera, setShowCamera] = useState<boolean>(false);
     const device = useCameraDevice('back');
     const cameraRef = useRef<Camera>(null);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+    Dimensions,
     Image,
     Modal,
     Platform,
@@ -15,10 +16,7 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../components/ProfileContext';
 
@@ -40,6 +38,8 @@ interface UserInfo {
     username: string;
 }
 
+const { width, height } = Dimensions.get('window');
+const calculatePercentage = (percentage: number, dimension: number) => (percentage / 100) * dimension;
 
 type QRCodeResultProps = NativeStackScreenProps<RootStackParamList, 'QRCodeResult'> 
 
@@ -107,25 +107,164 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
                 </View>
             </Modal>
 
-            <View style={styles.Card}>
-                {userInfo ? (
-                    <>
-                        <Text>{userInfo.profile_id}</Text>
-                        <Text>{userInfo.common_name}</Text>
-                        <Text>{userInfo.company_name}</Text>
-                        <Text>{userInfo.primary_phone}</Text>
-                        <Text>{userInfo.secondary_phone}</Text>
-                        <Text>{userInfo.email1}</Text>
-                        <Text>{userInfo.email2}</Text>
-                        <Text>{userInfo.address1}</Text>
-                        <Text>{userInfo.city}</Text>
-                        <Text>{userInfo.country}</Text>
-                        <Text>{userInfo.pincode}</Text>
-                    </>
-                ) : (
-                    <Text>No user information available.</Text>
-                )}
+            {/* Header */}
+            <View style={[styles.header]}>
+                <View>
+                    <Text style={styles.label}>TITLE</Text>
+                    <TextInput
+                        style={[styles.input,{ width: calculatePercentage(60, width)}]}
+                        placeholderTextColor="#999"
+                        value={ userInfo?.profileTitle || "NULL"}
+                        editable={false}
+                    />
+                </View>
             </View>
+
+            <ScrollView style={styles.container}>
+
+                {/* Profile Section */}
+                <View style={styles.sectionContainer}>
+                    <View style={styles.profileSection}>
+                        <View style={styles.profileDetails}>
+
+                            {/* Name Input */}
+                            <Text style={styles.label}>NAME</Text>
+                            <TextInput
+                                style={styles.input}
+                                placeholderTextColor="#999"
+                                value={userInfo?.common_name || ""}
+                                editable={false}
+                            />
+
+                            {/* Designation Input */}
+                            <Text style={styles.label}>DESIGNATION</Text>
+                            <TextInput
+                                    style={styles.input}
+                                    placeholderTextColor="#999"
+                                    value={"NULL"}
+                                    editable={false}
+                                />
+                        </View>
+                    </View>
+                </View>
+
+                {/* Qualifications & Entity Section */}
+                <View style={styles.sectionContainer}>          
+                    <Text style={styles.label}>QUALIFICATIONS</Text>
+                    <TextInput
+                            style={styles.input}
+                            placeholderTextColor="#999"
+                            value={'NULL'}
+                            editable={false}
+                        />
+
+                        <Text style={styles.label}>COMPANY NAME</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholderTextColor="#999"
+                            value={userInfo?.company_name || "NULL"}
+                            editable={false}
+                        />
+                </View>
+
+                {/* Contact Details Section */}
+                <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Contact Details</Text>
+
+                    {/* Primary Phone */}
+                    <View style={styles.iconInputContainer}>
+                        <Icon name="phone" size={calculatePercentage(5, width)} color="#333" />
+                        <TextInput
+                                style={styles.iconInput}
+                                placeholderTextColor="#999"
+                                value={userInfo?.primary_phone || "NULL"}
+                                editable={false}
+                            />
+                        </View>
+
+                        <View style={styles.iconInputContainer}>
+                            <Icon name="phone" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={styles.iconInput}
+                                placeholderTextColor="#999"
+                                value={userInfo?.secondary_phone || 'NULL'}
+                                editable={false}
+                            />
+                    </View>
+                </View>
+
+                {/* Mail Details Section */}
+                <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Mail Details</Text>
+
+                    {/* Primary Email */}
+                    <View style={styles.iconInputContainer}>
+                        <Icon name="email" size={calculatePercentage(5, width)} color="#333" />
+                        <TextInput
+                                style={styles.iconInput}
+                                placeholderTextColor="#999"
+                                value={userInfo?.email1 || "NULL"}
+                                editable={false}
+                            />
+                        </View>
+
+                        <View style={styles.iconInputContainer}>
+                            <Icon name="email" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={styles.iconInput}
+                                placeholderTextColor="#999"
+                                value={userInfo?.email2 || 'NULL'}
+                                editable={false}
+                            />
+                    </View>
+                </View>
+
+                {/* Address Section */}
+                <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
+                    <Text style={styles.sectionTitle}>Address</Text>
+                    <View style={[styles.Address1Container]}>
+                        <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                        <TextInput
+                                style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                                placeholderTextColor="#999"
+                                multiline
+                                value={userInfo?.address1 || 'NULL'}
+                                editable={false}
+                            />
+                    </View>
+                    <View style={{flexDirection:"row", gap:'20%'}}>
+                        <View style={styles.CityContainer}>
+                            <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                                placeholderTextColor="#999"
+                                value={userInfo?.city || 'NULL'}
+                                editable={false}
+                            />
+                        </View>
+                        <View style={styles.CityContainer}>
+                            <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                                placeholderTextColor="#999"
+                                value={userInfo?.pincode || 'NULL'}
+                                editable={false}
+                            />
+                        </View>
+                    </View>
+                    <View style={[styles.CountryContainer]}>
+                        <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                        <TextInput
+                            style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                            placeholderTextColor="#999"
+                            value={userInfo?.country || 'NULL'}
+                            editable={false}
+                        />
+                    </View>
+                    
+                </View>
+
+            </ScrollView>
             {/* Bottom Navigation */}
             <BottomNav navigation={navigation} />
         </SafeAreaView>
@@ -133,134 +272,145 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
 }
 
 const styles = StyleSheet.create({
+    safeArea: {
+      flex: 1,
+      backgroundColor: '#f8f8f8',
+    },
     container: {
-        flex: 1,
-        backgroundColor: "#F3FBFF",
-        justifyContent:'center',
-        alignContent:'center'
+      flex: 1,
+      paddingHorizontal: '2%',
     },
-
-    TopBarNav: {
+    header: {
+      flexDirection: 'row',
+      paddingHorizontal: '5%',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height:'auto',
+      marginTop: calculatePercentage(2, height),
+      marginBottom: calculatePercentage(0.1, height),
+    },
+    headerText: { color: 'black', alignSelf:'center', fontSize:32 },
+    doneButton: {
+      backgroundColor: '#007BFF',
+      borderRadius: 8,
+      paddingVertical: calculatePercentage(2, height),
+      paddingHorizontal: calculatePercentage(4, width),
+      marginBottom: calculatePercentage(1, height),
+    },
+    doneButtonText: {
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    sectionContainer: {
+      backgroundColor: '#fff',
+      borderRadius: 8,
+      padding: calculatePercentage(4, width),
+      marginBottom: calculatePercentage(5, height),
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.1,
+      shadowRadius: 2,
+      elevation: 2, // for Android shadow
+    },
+    sectionTitle: {
+      fontSize: calculatePercentage(4, width),
+      fontWeight: 'bold',
+      marginBottom: calculatePercentage(1, height),
+      color: '#333',
+    },
+    profileSection: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    profileDetails: {
+      flex: 1,
+      marginRight: calculatePercentage(4, width),
+    },
+    profileImageSection: {
+      alignItems: 'center',
+    },
+    profileImage: {
+      width: calculatePercentage(25, width),
+      height: calculatePercentage(25, width),
+      borderRadius: calculatePercentage(50, width),
+      backgroundColor: '#ddd',
+    },
+    editImageButton: {
+      marginTop: calculatePercentage(3, height),
+      backgroundColor: '#007BFF',
+      borderRadius: 8,
+      paddingVertical: calculatePercentage(1, height),
+      paddingHorizontal: calculatePercentage(4, width),
+    },
+    editImageText: {
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    label: {
+      fontSize: calculatePercentage(3.5, width),
+      fontWeight: 'bold',
+      marginBottom: calculatePercentage(0.5, height),
+      color: '#333',
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 8,
+      padding: calculatePercentage(3, width),
+      marginBottom: calculatePercentage(4, height),
+      backgroundColor: '#fff',
+      fontSize: calculatePercentage(3.5, width),
+      color: '#333',
+    },
+    iconInputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: '#ccc',
+      borderRadius: 8,
+      padding: calculatePercentage(3, width),
+      marginBottom: calculatePercentage(4, height),
+      backgroundColor: '#fff',
+    },
+    Address1Container: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        width: '90%',
-        marginVertical: '4%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        padding: calculatePercentage(0, width),
+        marginBottom: calculatePercentage(2, height),
+        backgroundColor: '#fff',
     },
-
-    WelcomeText: {
-        color: "#444242",
-        fontSize: 20,
-    },
-
-    SearchBar: {
-        width: '90%',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginVertical: '3%',
-        backgroundColor: '#FFFFFF',
-        borderRadius: 15,
-        paddingHorizontal: 15,
-        elevation: 4, // For Android shadow
-
-        // iOS shadow properties
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3,
-    },
-
-    searchInput: {
-        height: 50,
-        color: 'black',
-        fontSize: 18,
-    },
-
-    content: {
-        paddingHorizontal: '5%',
-        paddingTop: 10,
-        paddingBottom: 0, // Adds padding to prevent bottom navbar from covering content
-
-    },
-
-    AdPlaceholder: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'grey',
-        borderRadius: 15,
-        marginBottom: '5%',
-        padding: '10%',
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3,
-    },
-
-    CardsHolder: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        marginBottom: '5%',
-        paddingTop:5
-    },
-    
-    Card: {
-        width:'80%',
-        height:'60%',
-        alignSelf:'center',
-        backgroundColor: 'black',
-        borderRadius: 15,
-        padding: 10,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3,
-    },
-
-    CardTextHolder: {
-        marginBottom: 10,
-    },
-
-    CardText: {
-        color: '#444242',
-        fontSize: 11,
-
-    },
-
-    CardImage: {
-        height: 80,  // Adjust based on your needs
-        alignItems: 'center',  // Center the image horizontally
-        marginTop: 10,  // Space between text and image
-    },
-    ImageStyle: {
-        width: 140,   // Adjust based on your image size
-        height: 80,  // Adjust based on your image size
-    },
-
-    BottomNav: {
-        position: 'absolute', // Makes the bottom navigation stick to the bottom
-        bottom: 0,
-        left: 0,
-        right: 0,
+    CountryContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF',
-        height: 60,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        padding: calculatePercentage(0, width),
+        marginBottom: calculatePercentage(1, height),
+        backgroundColor: '#fff',
+        marginTop:-30,
+    },
+    CityContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        height:"50%",
+        width:'49%',
+        marginBottom: calculatePercentage(2, height),
+        backgroundColor: '#fff',
     },
 
-    NavButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-    ButtonText: {
-        color: '#444242',
-        fontSize: 12,
+    iconInput: {
+      flex: 1,
+      marginLeft: calculatePercentage(3, width),
+      fontSize: calculatePercentage(3.5, width),
+      color: '#333',
     },
 });
 

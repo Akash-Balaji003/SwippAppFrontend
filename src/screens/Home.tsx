@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+    ActivityIndicator,
     Alert,
     FlatList,
     Image,
@@ -15,9 +16,10 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../components/ProfileContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Friend {
     friend_profile_id: string;
@@ -28,8 +30,19 @@ interface Friend {
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
 
 const Home = ({navigation}:HomeProps) => {
+    const { profile, setProfile } = useProfile();  // State to store the fetched user data
 
-    const { profile } = useProfile();
+    const handleLogout = async () => {
+        try {
+            await AsyncStorage.clear();
+            navigation.navigate('Login'); // Navigate to login screen
+            setProfile(null as any); // Clear the userContext
+        } catch (error) {
+            Alert.alert('Error', 'Failed to log out. Please try again.');
+            console.error(error);
+        }
+    };
+
     const { height } = useWindowDimensions();
 
     const [searchInput, setSearchInput] = useState('');
@@ -60,18 +73,27 @@ const Home = ({navigation}:HomeProps) => {
         setSearchResults([]); // Clear the search results when navigating away or clearing input
     };
 
-    if (!profile) return <Text>Loading...</Text>;
+    if (!profile) {
+        return (
+            <SafeAreaView style={[styles.container, { justifyContent: 'center' }]}>
+                <ActivityIndicator size="large" color="#ffffff" />
+                <Text style={{ color: "white", textAlign: 'center', marginTop: 10 }}>
+                    Loading...
+                </Text>
+            </SafeAreaView>
+        );
+    }
 
     return (
         <SafeAreaView style={[styles.container, { height }]}>
             {/* Top Bar */}
             <View style={styles.TopBarNav}>
                 <View>
-                    <Text style={styles.WelcomeText}>Welcome</Text>
-                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{profile.common_name}</Text>
+                    <Text style={styles.WelcomeText} onPress={() => clearSearchResults()}>Welcome</Text>
+                    <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{profile?.common_name}</Text>
                 </View>
-                <TouchableOpacity onPress={() => clearSearchResults()}>
-                    <FontAwesome name="bell-o" size={30} color="black" />
+                <TouchableOpacity onPress={handleLogout}>
+                    <MaterialIcons name="logout" size={25} color="black" />
                 </TouchableOpacity>
             </View>
 
