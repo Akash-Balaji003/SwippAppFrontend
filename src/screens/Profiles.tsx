@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, useWindowDimensions, Platform, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import { useProfile } from '../components/ProfileContext';
-import { saveUserData } from '../tasks/Storage';
+import { saveProfileData } from '../tasks/Storage';
 
 
 type ProfilesProps = NativeStackScreenProps<RootStackParamList, 'Profiles'>;
@@ -20,7 +20,7 @@ const Profiles = ({ route, navigation }: ProfilesProps) => {
             const profileData = await response.json();
 
             setProfile(profileData);  // Set the profile data in context
-            await saveUserData(profileData);
+            await saveProfileData(profileData);
             navigation.navigate('Home');  // Navigate to Home without parameters
 
         } catch (error) {

@@ -19,8 +19,9 @@ import ScanCard from './screens/ScanCard';
 import ScannedCardScreen from './screens/ScannedCardScreen';
 import UserProfile from './screens/UserProfile';
 
-import { getUserData } from './tasks/Storage';
+import { getProfileData } from './tasks/Storage';
 import { ActivityIndicator, View } from 'react-native';
+import { UserProvider } from './contexts/UserContext';
 
 
 enableScreens(); 
@@ -74,7 +75,7 @@ const AppWrapper = () => {
     useEffect(() => {
 
         const fetchUserData = async () => {
-            const userData = await getUserData(); // Fetch all user data (not just user_id)
+            const userData = await getProfileData(); // Fetch all user data (not just user_id)
             
             if (userData) {
                 console.log('User Data found:', userData);
@@ -93,7 +94,7 @@ function App(): React.JSX.Element {
 
     useEffect(() => {
         const checkUserStatus = async () => {
-            const userData = await getUserData();  // Fetch user data
+            const userData = await getProfileData();  // Fetch user data
             setIsLoggedIn(!!userData);  // If user data exists, set logged in to true
         };
         
@@ -108,27 +109,29 @@ function App(): React.JSX.Element {
         );
     }
     return (
-        <ProfileProvider>
-            <NavigationContainer>
-                <AppWrapper />
-                <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
-                    <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
-                    <Stack.Screen name='ViewCard' component={ViewCard} options={{ headerShown: false }} />
-                    <Stack.Screen name='EditCard' component={EditCard} options={{ headerShown: false }} />
-                    <Stack.Screen name='BottomNav' component={BottomNav} options={{ headerShown: false }} />
-                    <Stack.Screen name='QRCodeScanner' component={QRCodeScanner} options={{ headerShown: false }} />
-                    <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
-                    <Stack.Screen name='Profiles' component={Profiles} options={{ headerShown: false }} />
-                    <Stack.Screen name='AccountCreation' component={AccountCreation} options={{ headerShown: false }} />
-                    <Stack.Screen name='AboutYou' component={AboutYou} options={{ headerShown: false }} />
-                    <Stack.Screen name='AboutCompany' component={AboutCompany} options={{ headerShown: false }} />
-                    <Stack.Screen name='QRCodeResult' component={QRCodeResult} options={{ headerShown: false }} />
-                    <Stack.Screen name='ScanCard' component={ScanCard} options={{ headerShown: false }} />
-                    <Stack.Screen name='ScannedCardScreen' component={ScannedCardScreen} options={{ headerShown: false }} />
-                    <Stack.Screen name='UserProfile' component={UserProfile} options={{ headerShown: false }} />
-                </Stack.Navigator>
-            </NavigationContainer>
-        </ProfileProvider>
+        <UserProvider>
+            <ProfileProvider>
+                <NavigationContainer>
+                    <AppWrapper />
+                    <Stack.Navigator initialRouteName={isLoggedIn ? 'Home' : 'Login'}>
+                        <Stack.Screen name='Home' component={Home} options={{ headerShown: false }} />
+                        <Stack.Screen name='ViewCard' component={ViewCard} options={{ headerShown: false }} />
+                        <Stack.Screen name='EditCard' component={EditCard} options={{ headerShown: false }} />
+                        <Stack.Screen name='BottomNav' component={BottomNav} options={{ headerShown: false }} />
+                        <Stack.Screen name='QRCodeScanner' component={QRCodeScanner} options={{ headerShown: false }} />
+                        <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
+                        <Stack.Screen name='Profiles' component={Profiles} options={{ headerShown: false }} />
+                        <Stack.Screen name='AccountCreation' component={AccountCreation} options={{ headerShown: false }} />
+                        <Stack.Screen name='AboutYou' component={AboutYou} options={{ headerShown: false }} />
+                        <Stack.Screen name='AboutCompany' component={AboutCompany} options={{ headerShown: false }} />
+                        <Stack.Screen name='QRCodeResult' component={QRCodeResult} options={{ headerShown: false }} />
+                        <Stack.Screen name='ScanCard' component={ScanCard} options={{ headerShown: false }} />
+                        <Stack.Screen name='ScannedCardScreen' component={ScannedCardScreen} options={{ headerShown: false }} />
+                        <Stack.Screen name='UserProfile' component={UserProfile} options={{ headerShown: false }} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </ProfileProvider>
+        </UserProvider>
     );
 }
 

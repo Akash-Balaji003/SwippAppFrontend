@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { RootStackParamList } from '../App';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useUser } from '../contexts/UserContext';
 
 type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -17,6 +18,7 @@ type LoginProps = NativeStackScreenProps<RootStackParamList, 'Login'>;
 const { width, height } = Dimensions.get('window');
 
 const LoginScreen = ({ navigation }: LoginProps) => {
+  const { setUserContext } = useUser();
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -37,6 +39,15 @@ const LoginScreen = ({ navigation }: LoginProps) => {
       const data = await response.json();
   
       if (response.ok) {
+
+        // Save user context
+        setUserContext({
+          userId: data.user_id,
+          profileIds: data["Profile IDs"],
+          profileTitles: data["Profile Titles"],
+          phone_number: data["Mobile Number"],
+      });
+      
         // Navigate to Home screen on successful login
         navigation.navigate("Profiles", {
           userId: data.user_id,
@@ -44,6 +55,9 @@ const LoginScreen = ({ navigation }: LoginProps) => {
           profileIds: data["Profile IDs"],
           profileTitles: data["Profile Titles"],
         });
+
+        console.log("User Data: ", data["Mobile Number"] )
+
       } else {
         // Set error message from backend response
         setErrorMessage(data.detail || 'Invalid mobile number or password');
