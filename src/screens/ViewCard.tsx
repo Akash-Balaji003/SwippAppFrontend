@@ -14,7 +14,7 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import BottomNav from '../components/BottomNav';
-import { useProfile } from '../components/ProfileContext';
+import { useProfile } from '../contexts/ProfileContext';
 
 const { width, height } = Dimensions.get('window');
 const calculatePercentage = (percentage: number, dimension: number) => (percentage / 100) * dimension;

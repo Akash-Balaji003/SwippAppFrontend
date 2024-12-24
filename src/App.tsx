@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { enableScreens } from 'react-native-screens'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ProfileProvider, useProfile } from './components/ProfileContext';
+import { ProfileProvider, useProfile } from './contexts/ProfileContext';
 
 import Home from './screens/Home';
 import EditCard from './screens/EditCard';

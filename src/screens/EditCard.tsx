@@ -16,7 +16,7 @@ import {
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 import BottomNav from '../components/BottomNav';
-import { useProfile } from '../components/ProfileContext';
+import { useProfile } from '../contexts/ProfileContext';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { width, height } = Dimensions.get('window');

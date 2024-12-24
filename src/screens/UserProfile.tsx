@@ -5,7 +5,7 @@ import { RootStackParamList } from '../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNav from '../components/BottomNav';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useProfile } from '../components/ProfileContext';
+import { useProfile } from '../contexts/ProfileContext';
 import { saveUserData } from '../tasks/Storage';
 import { useUser } from '../contexts/UserContext';
 

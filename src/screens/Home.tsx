@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     ActivityIndicator,
     Alert,
+    Dimensions,
     FlatList,
     Image,
     SafeAreaView,
@@ -18,8 +19,14 @@ import { RootStackParamList } from '../App';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BottomNav from '../components/BottomNav';
-import { useProfile } from '../components/ProfileContext';
+import { useProfile } from '../contexts/ProfileContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SearchBar from '../components/SearchBar';
+
+const { width, height } = Dimensions.get("window");
+
+// Helper function for percentage calculation
+const calculatePercentage = (percentage: number, dimension: number) => (percentage / 100) * dimension;
 
 interface Friend {
     friend_profile_id: string;
@@ -98,38 +105,9 @@ const Home = ({navigation}:HomeProps) => {
             </View>
 
             {/* Search Bar Container */}
-            <View style={styles.SearchBarContainer}>
-                <TextInput
-                    style={styles.searchInput}
-                    placeholderTextColor="black"
-                    textAlign="left"
-                    placeholder="Search..."
-                    onChangeText={setSearchInput} // Update search input state
-                    onSubmitEditing={handleSearch} // Handle search on pressing Enter/Done
-                />
-                {/* Conditional rendering of search results */}
-                {searchResults.length > 0 && (
-                    <View style={styles.searchResultsContainer}>
-                        <FlatList
-                            data={searchResults}
-                            keyExtractor={(item) => item.friend_profile_id.toString()}
-                            renderItem={({ item }) => (
-                                <TouchableOpacity
-                                    style={styles.resultItem}
-                                    onPress={() => {
-                                        Alert.alert('Friend Selected', item.common_name);
-                                    }}
-                                >
-                                    <Text style={styles.resultText}>{item.common_name}</Text>
-                                    <Text style={styles.resultText}>{item.profile_title}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </View>
-                )}
+            <View style={styles.searchBarContainer}>
+                <SearchBar />
             </View>
-
-
 
             {/* Content */}
             <View style={styles.content}>
@@ -221,7 +199,14 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#F3FBFF",
     },
-
+    searchBarContainer: {
+        position: "absolute",
+        marginTop: calculatePercentage(11, height),
+        width: "100%",
+        zIndex:1,
+        alignSelf:"center",
+        marginBottom:60
+    },
     TopBarNav: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -256,11 +241,11 @@ const styles = StyleSheet.create({
 
     content: {
         flex: 0.9,
-        paddingHorizontal: '5%',
+        paddingHorizontal: 10,
         paddingTop: 5,
         paddingBottom: 20, // Add some bottom padding
         justifyContent: 'space-around',
-        marginTop: 10, // Add space above the content
+        marginTop: calculatePercentage(8, height),
         marginBottom: 10, // Add space below the content
     },
 

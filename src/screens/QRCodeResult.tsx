@@ -18,7 +18,7 @@ import { RootStackParamList } from '../App';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BottomNav from '../components/BottomNav';
-import { useProfile } from '../components/ProfileContext';
+import { useProfile } from '../contexts/ProfileContext';
 
 interface UserInfo {
     userId: number;
