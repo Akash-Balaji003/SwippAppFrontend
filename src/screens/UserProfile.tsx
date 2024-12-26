@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, StatusBar, Alert, ViewBase } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, StatusBar, Alert, ViewBase, Modal } from 'react-native';
 import { RootStackParamList } from '../App';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BottomNav from '../components/BottomNav';
@@ -16,8 +16,34 @@ const UserProfile = ({ navigation }: NativeStackScreenProps<RootStackParamList, 
     const [UserPhone, setUserPhone] = useState(phone_number || "");
     const [switchProfileTitles, setSwitchProfileTitles] = useState(profileTitles || []);
     const [switchProfileIds, setSwitchProfileIds] = useState(profileIds || []);
+    const [selectedProfileId, setSelectedProfileId] = useState<number | null>(null);
+
+
+    const [qrCode, setQrCode] = useState<string | null>(null);
+    const [isProfileModalVisible, setIsProfileModalVisible] = useState(false);
+    const [isQRModalVisible, setIsQRModalVisible] = useState(false);
 
     const profileCount = switchProfileIds.length;
+
+
+    const getQR = async (id: number) => {
+        try {
+            const response = await fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/get-qr?data=${id}`);
+            if (!response.ok) throw new Error('Failed to fetch QR code');
+            const QRcode = await response.json();
+            setQrCode(QRcode.qr_code_base64);
+            setIsQRModalVisible(true);  // Show the modal with the QR code
+        } catch (error) {
+            Alert.alert('Error', 'Unable to fetch QR code. Please try again later.');
+            console.error(error);
+        }
+    };
+
+    const handleProfileSelection = (id: number) => {
+        setSelectedProfileId(id);
+        setIsProfileModalVisible(false); // Close the profile selection modal
+        getQR(id); // Fetch and show the QR code for the selected profile
+    };
 
 
     const selectProfile = async (id: number) => {
@@ -34,6 +60,10 @@ const UserProfile = ({ navigation }: NativeStackScreenProps<RootStackParamList, 
             Alert.alert('Error', 'Unable to fetch profile data. Please try again later.');
             console.error(error);
         }
+    };
+
+    const handleShare = async() => {
+        setIsProfileModalVisible(true);
     };
 
     return (
@@ -64,7 +94,7 @@ const UserProfile = ({ navigation }: NativeStackScreenProps<RootStackParamList, 
                         }}
                         style={styles.profileImage}
                     />
-                    <TouchableOpacity style={styles.overlayButton}>
+                    <TouchableOpacity style={styles.overlayButton} onPress={handleShare}>
                         <Icon name="qr-code" size={20} color="white" />
                     </TouchableOpacity>
                     </View>
@@ -110,6 +140,61 @@ const UserProfile = ({ navigation }: NativeStackScreenProps<RootStackParamList, 
                     
                 ))}
             </View>
+            {/* Profile Selection Modal */}
+            <Modal
+                transparent={true}
+                animationType="slide"
+                visible={isProfileModalVisible}
+                onRequestClose={() => setIsProfileModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, color:"black" }}>Select a Profile</Text>
+                        {switchProfileTitles.map((title, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                style={styles.profileButton}
+                                onPress={() => handleProfileSelection(switchProfileIds[index])}
+                            >
+                                <Text style={styles.profileText}>{title}</Text>
+                            </TouchableOpacity>
+                        ))}
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setIsProfileModalVisible(false)}
+                        >
+                            <Text style={styles.buttonTextModal}>CLOSE</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* Modal for QR Code */}
+            <Modal
+                transparent={true}
+                animationType="slide"
+                visible={isQRModalVisible}
+                onRequestClose={() => setIsQRModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        {qrCode ? (
+                            <Image
+                                source={{ uri: `data:image/png;base64,${qrCode}` }}
+                                style={styles.qrCodeImage}
+                            />
+                        ) : (
+                            <Text style={{ color: 'black' }}>Loading...</Text>
+                        )}
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setIsQRModalVisible(false)}
+                        >
+                            <Text style={styles.buttonTextModal}>CLOSE</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </ScrollView>
         <BottomNav navigation={navigation} />
         </SafeAreaView>
@@ -260,6 +345,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 10,
+    },
+    buttonTextModal: {
+        color: '#fff',
+        alignSelf: 'center',
+        marginTop:'auto',
+        marginBottom:'auto',
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Dim background
+    },
+    modalContainer: {
+        width: 300,
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    qrCodeImage: {
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+    },
+    closeButton: {
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+        marginTop:20
     },
 });
 

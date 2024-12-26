@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, FlatList, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { useProfile } from '../contexts/ProfileContext';
+import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
 // Define the type for the user
 interface User {
@@ -10,7 +12,18 @@ interface User {
     remarks: string;
 }
 
-const SearchUser = () => {
+interface Card {
+    card_id: number;
+    title: string;
+    name: string;
+    remarks: string;
+}
+
+type SearchProps = {
+    navigation: NativeStackNavigationProp<any>;
+};
+
+export const SearchUser = ({navigation}: SearchProps) => {
     const { profile } = useProfile();
     const [searchQuery, setSearchQuery] = useState('');
     const [users, setUsers] = useState<User[]>([]);  // Use the User type here
@@ -31,28 +44,16 @@ const SearchUser = () => {
     }, [searchQuery, profile?.profile_id]);
     
 
-    const handleUserClick = (friend_profile_id: number, common_name: string) => {
-        // Show an alert to confirm sending a friend request
-        Alert.alert(
-            "Send Friend Request",
-            `Send a friend request to ${common_name}?`,
-            [
-                {
-                    text: "Cancel", // Cancel button to close the alert
-                    style: "cancel"
-                },
-                {
-                    text: "OK", // OK button to send the request
-                    onPress: () => sendFriendRequest(friend_profile_id, common_name) // Call the function to send the request
-                }
-            ]
-        );
-    };
-    
-    // Function to call the API for sending the friend request
-    const sendFriendRequest = async (recipientId: number, common_name: string) => {
+    const handleUserClick = (friend_profile_id: number, remarks: string) => {
+
+        // Go to Friend Profile screen
         setSearchQuery('');
         setUsers([]);
+        navigation.navigate("FriendProfile", {
+            friend_id: friend_profile_id,
+            remarks: remarks
+        });
+
     };
 
     return (
@@ -68,9 +69,57 @@ const SearchUser = () => {
                 data={users}
                 keyExtractor={(item) => item.friend_profile_id.toString()}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => handleUserClick(item.friend_profile_id, item.common_name)} style={styles.card}>
+                    <TouchableOpacity onPress={() => handleUserClick(item.friend_profile_id, item.remarks)} style={styles.card}>
                         <Text style={styles.username}>{item.common_name}</Text>
                         <Text style={styles.profileTitle}>{item.profile_title}</Text>
+                        <Text style={styles.remarks}>{item.remarks}</Text>
+                    </TouchableOpacity>
+                )}
+                contentContainerStyle={styles.listContainer}
+            />
+        </View>
+    );
+};
+
+export const SearchCards = ({ navigation }: SearchProps) => {
+    const { profile } = useProfile();
+    const [searchQuery, setSearchQuery] = useState('');
+    const [cards, setCards] = useState<Card[]>([]);
+
+    useEffect(() => {
+        console.log('Search Query:', searchQuery);
+        if (searchQuery.length >= 3) {
+            fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/search-cards?profile_id=${profile?.profile_id}&search_query=${searchQuery}`)
+                .then(response => response.json())
+                .then(data => setCards(data))
+                .catch(error => console.error('Error fetching cards:', error));
+        } else {
+            setCards([]);
+        }
+    }, [searchQuery, profile?.profile_id]);
+
+    const handleCardClick = (id: number) => {
+        setSearchQuery('');
+        setCards([]);
+        navigation.navigate("CardView", {card_id: id})
+    };
+
+    return (
+        <View style={styles.container}>
+            <TextInput
+                placeholder="Search for cards..."
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+                style={styles.searchInput}
+                placeholderTextColor="#A0A0A0"
+            />
+            <FlatList
+                data={cards}
+                keyExtractor={(item) => item.card_id.toString()}
+                renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => handleCardClick(item.card_id)} style={styles.card}>
+                        <Text style={styles.username}>{item.name}</Text>
+                        <Text style={styles.profileTitle}>{item.title}</Text>
                         <Text style={styles.remarks}>{item.remarks}</Text>
                     </TouchableOpacity>
                 )}
@@ -127,5 +176,3 @@ const styles = StyleSheet.create({
         color: '#888',  // Lighter color for remarks
     },
 });
-
-export default SearchUser;

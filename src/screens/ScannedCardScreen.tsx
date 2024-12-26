@@ -48,8 +48,10 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
     const [cardPincode, setPincode] = useState("");
     const [cardCountry, setCountry] = useState("");
 
+    const [remark, setRemark] = useState("");
+
     const storeCard = async() => {
-        if (!name.trim() || !cardTitle.trim() || !companyName.trim() || !primaryPhone.trim() || !email1.trim() || !cardAddress.trim() || !cardCity.trim() || !cardPincode.trim() || !cardCountry.trim()) {
+        if (!name.trim() || !cardTitle.trim() || !companyName.trim() || !primaryPhone.trim() || !email1.trim() || !cardAddress.trim() || !cardCity.trim() || !cardPincode.trim() || !cardCountry.trim() || !remark.trim()) {
             Alert.alert("Validation Error", "All required fields must be filled. Please check and try again.");
             return;
         }
@@ -77,7 +79,9 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                     country: cardCountry,
 
                     secondary_phone: secondaryPhone,  
-                    secondary_email: email2,                     
+                    secondary_email: email2,
+
+                    remark: remark
                 }),
             });
 
@@ -221,18 +225,18 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
             </View>
 
             {/* Address Section */}
-            <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
+            <View style={[styles.sectionContainer]}>
                 <Text style={styles.sectionTitle}>Address <Text style={styles.required}>*</Text></Text>
                 <View style={[styles.Address1Container]}>
                     <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                     <TextInput
-                            style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter address"
-                            placeholderTextColor="#999"
-                            multiline
-                            value={cardAddress || ''}
-                            onChangeText={setAddress1}
-                        />
+                        style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                        placeholder="Enter address"
+                        placeholderTextColor="#999"
+                        multiline
+                        value={cardAddress || ''}
+                        onChangeText={setAddress1}
+                    />
                 </View>
                 <View style={{flexDirection:"row", gap:'20%'}}>
                     <View style={styles.CityContainer}>
@@ -267,6 +271,24 @@ const ScannedCardScreen = ({ navigation, route }: ScannedCardProps) => {
                     />
                 </View>
                 
+            </View>
+
+
+            {/* Remarks Section */}
+            <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
+                <Text style={styles.sectionTitle}>Remarks <Text style={styles.required}>*</Text></Text>
+
+                {/* Primary Email */}
+                <View style={styles.iconInputContainer}>
+                    <Icon name="edit" size={calculatePercentage(5, width)} color="#333" />
+                    <TextInput
+                        style={styles.iconInput}
+                        placeholder="Enter your remarks"
+                        placeholderTextColor="#999"
+                        value={remark}
+                        onChangeText={setRemark}
+                    />
+                </View>
             </View>
 
         </ScrollView>

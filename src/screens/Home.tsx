@@ -21,7 +21,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../contexts/ProfileContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SearchBar from '../components/SearchBar';
+import {SearchUser} from '../components/SearchBar';
 
 const { width, height } = Dimensions.get("window");
 
@@ -52,34 +52,6 @@ const Home = ({navigation}:HomeProps) => {
 
     const { height } = useWindowDimensions();
 
-    const [searchInput, setSearchInput] = useState('');
-    const [searchResults, setSearchResults] = useState<Friend[]>([]); // State for storing search results
-
-    const getFriends = async (query: number | string) => {
-        try {
-            const response = await fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/get-friend?data=${profile?.profile_id}`);
-            if (!response.ok) throw new Error('Failed to fetch profile data');
-            const friendData = await response.json();
-            console.log('data', friendData);
-            setSearchResults(friendData);
-        } catch (error) {
-            Alert.alert('Error', 'Unable to fetch profile data. Please try again later.');
-            console.error(error);
-        }
-    };
-
-    const handleSearch = () => {
-        if (!searchInput.trim()) {
-            Alert.alert('Error', 'Please enter a valid input to search.');
-            return;
-        }
-        getFriends(searchInput.trim()); // Call getFriends with search input
-    };
-
-    const clearSearchResults = () => {
-        setSearchResults([]); // Clear the search results when navigating away or clearing input
-    };
-
     if (!profile) {
         return (
             <SafeAreaView style={[styles.container, { justifyContent: 'center' }]}>
@@ -96,7 +68,7 @@ const Home = ({navigation}:HomeProps) => {
             {/* Top Bar */}
             <View style={styles.TopBarNav}>
                 <View>
-                    <Text style={styles.WelcomeText} onPress={() => clearSearchResults()}>Welcome</Text>
+                    <Text style={styles.WelcomeText}>Welcome</Text>
                     <Text style={[styles.WelcomeText, { fontWeight: 'bold', fontSize: 22, color: '#0077B6' }]}>{profile?.common_name}</Text>
                 </View>
                 <TouchableOpacity onPress={handleLogout}>
@@ -106,7 +78,7 @@ const Home = ({navigation}:HomeProps) => {
 
             {/* Search Bar Container */}
             <View style={styles.searchBarContainer}>
-                <SearchBar />
+                <SearchUser navigation={navigation}/>
             </View>
 
             {/* Content */}
@@ -133,12 +105,12 @@ const Home = ({navigation}:HomeProps) => {
                         </View>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.Card} onPress={()=> Alert.alert("Feature coming soon...")}>
+                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("SavedCards")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
-                                <Text style={{color: "#0077B6"}}>SHARE</Text> YOUR CARD
+                                <Text style={{color: "#0077B6"}}>CARDS</Text> STORAGE
                             </Text>
-                            <Text style={[styles.CardText, {paddingTop:3}]}>DISTRIBUTE YOUR CARD WITH OTHERS AND EXPAND YOUR NETWORK</Text>
+                            <Text style={[styles.CardText, {paddingTop:3}]}>VIEW ALL OF YOUR SAVED CARDS</Text>
                         </View>
                         <View style={styles.CardImage}>
                             <Image 

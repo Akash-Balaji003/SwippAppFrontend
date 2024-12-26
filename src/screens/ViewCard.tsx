@@ -42,43 +42,42 @@ const ViewCard = ({navigation}: ViewCardProps) => {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={{ color: 'black', alignSelf:'center', marginTop:'5%', fontSize:32 }}>{profile?.profile_title}</Text>
-            <View style={styles.Card}>
-            <View style={styles2.header}>
-                    <View style={styles2.imageContainer}>
-                        <View style={styles2.userImage} />
-                        <Text style={styles2.imageText}>userImage</Text>
+            <View style={styles.card}>
+            <View style={styles.header}>
+                    <View style={styles.imageContainer}>
+                        <View style={styles.userImage} />
+                        <Text style={styles.imageText}>userImage</Text>
                     </View>
-                    <View style={styles2.logoContainer}>
-                        <Text style={styles2.logoText}>logo</Text>
+                    <View style={styles.logoContainer}>
+                        <Text style={styles.logoText}>logo</Text>
                     </View>
                 </View>
 
                 {/* Info Section */}
-                <View style={styles2.infoSection}>
-                    <Text style={styles2.name}>{profile?.common_name}</Text>
-                    <Text style={styles2.qualification}>qualification</Text>
-                    <Text style={styles2.designation}>designation</Text>
-                    <Text style={styles2.entityName}>{profile?.company_name}</Text>
-                    <Text style={styles2.entitySubname}>entitySubname</Text>
+                <View style={styles.infoSection}>
+                    <Text style={styles.name}>{profile?.common_name}</Text>
+                    <Text style={styles.qualification}>{profile?.qualification}</Text>
+                    <Text style={styles.designation}>{profile?.designation}</Text>
+                    <Text style={styles.entityName}>{profile?.company_name}</Text>
 
                     {/* Contact Information */}
-                    <View style={styles2.contactContainer}>
-                        <Text style={styles2.entityName}>{profile?.primary_phone}</Text>
-                        <Text style={styles2.entityName}>{profile?.email1}</Text>
-                        <Text style={styles2.entityName}>{profile?.secondary_phone}</Text>
-                        <Text style={styles2.entityName}>{profile?.email2}</Text>
+                    <View style={styles.contactContainer}>
+                        <Text style={styles.entityName}>{profile?.primary_phone}</Text>
+                        <Text style={styles.entityName}>{profile?.email1}</Text>
+                        <Text style={styles.entityName}>{profile?.secondary_phone}</Text>
+                        <Text style={styles.entityName}>{profile?.email2}</Text>
                     </View>
 
                     {/* Address Section */}
-                    <View style={styles2.addressContainer}>
-                        <Text style={styles2.entityName}>{profile?.address1}</Text>
-                        <Text style={styles2.entityName}>{profile?.city} | {profile?.pincode} | {profile?.country}</Text>
+                    <View style={styles.addressContainer}>
+                        <Text style={styles.entityName}>{profile?.address1}</Text>
+                        <Text style={styles.entityName}>{profile?.city} | {profile?.pincode} | {profile?.country}</Text>
                     </View>
                 </View>
                 
                 <View style={{flexDirection: 'row', justifyContent: 'center', margin: 5, height:'8%'}}>
                     <TouchableOpacity
-                        style={styles2.editImageButton}
+                        style={styles.editImageButton}
                         onPress={() => {
                             if (profile?.profile_id !== undefined) {
                                 getQR(profile.profile_id);
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         gap:50
     },
-    Card: {
+    card: {
         width: '80%',
         height: '70%',
         alignSelf: 'center',
@@ -141,65 +140,6 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 10,
         elevation: 4,
-    },
-    editButton: {
-        backgroundColor: 'grey',
-        width: '40%',
-    },
-    shareButton: {
-        backgroundColor: 'green',
-        width: '40%',
-        borderRadius: 20,
-    },
-    buttonText: {
-        color: '#fff',
-        alignSelf: 'center',
-        marginTop:'auto',
-        marginBottom:'auto',
-    },
-    modalOverlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Dim background
-    },
-    modalContainer: {
-        width: 300,
-        padding: 20,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        alignItems: 'center',
-    },
-    qrCodeImage: {
-        width: 200,
-        height: 200,
-        marginBottom: 20,
-    },
-    closeButton: {
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
-    },
-});
-
-const styles2 = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#E8F1F8",
-        padding: '5%',
-        justifyContent: 'center',
-    },
-    card: {
-        backgroundColor: 'white',
-        borderRadius: 15,
-        padding: '5%',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
-        elevation: 5,
-        width: '90%',
-        alignSelf: 'center',
     },
     header: {
         flexDirection: 'row',
@@ -296,6 +236,40 @@ const styles2 = StyleSheet.create({
         alignSelf:'center',
         alignContent:'center'
       },
+      shareButton: {
+        backgroundColor: 'green',
+        width: '40%',
+        borderRadius: 20,
+    },
+    buttonText: {
+        color: '#fff',
+        alignSelf: 'center',
+        marginTop:'auto',
+        marginBottom:'auto',
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Dim background
+    },
+    modalContainer: {
+        width: 300,
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    qrCodeImage: {
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+    },
+    closeButton: {
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+    },
 });
 
 export default ViewCard;

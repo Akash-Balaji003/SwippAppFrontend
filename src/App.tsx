@@ -18,6 +18,9 @@ import QRCodeResult from './screens/QRCodeResult';
 import ScanCard from './screens/ScanCard';
 import ScannedCardScreen from './screens/ScannedCardScreen';
 import UserProfile from './screens/UserProfile';
+import FriendProfile from './screens/FriendProfile';
+import SavedCards from './screens/SavedCards';
+import CardView from './screens/CardView';
 
 import { getProfileData } from './tasks/Storage';
 import { ActivityIndicator, View } from 'react-native';
@@ -65,6 +68,15 @@ export type RootStackParamList = {
         email_id: string | null;
     };
     UserProfile: undefined;
+    SearchBar: undefined;
+    FriendProfile: {
+        friend_id: number,
+        remarks: string
+    };
+    SavedCards: undefined;
+    CardView: {
+        card_id: number
+    };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -128,6 +140,9 @@ function App(): React.JSX.Element {
                         <Stack.Screen name='ScanCard' component={ScanCard} options={{ headerShown: false }} />
                         <Stack.Screen name='ScannedCardScreen' component={ScannedCardScreen} options={{ headerShown: false }} />
                         <Stack.Screen name='UserProfile' component={UserProfile} options={{ headerShown: false }} />
+                        <Stack.Screen name='FriendProfile' component={FriendProfile} options={{ headerShown: false }} />
+                        <Stack.Screen name='SavedCards' component={SavedCards} options={{ headerShown: false }} />
+                        <Stack.Screen name='CardView' component={CardView} options={{ headerShown: false }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </ProfileProvider>
