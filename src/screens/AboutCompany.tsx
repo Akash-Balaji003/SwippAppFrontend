@@ -106,7 +106,7 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
 
             {/* Form Title */}
             <Text style={[styles.title, {marginBottom:'1%'}]}>ABOUT YOUR COMPANY</Text>
-            <Text style={[styles.title, {fontSize:13, fontWeight:'300'}]}><AntDesign name="infocirlceo" size={12} color="black" /> Details entered hence forth will be mentioned in your card. You can edit it later in profile section</Text>
+            <Text style={[styles.title, {fontSize:13, fontWeight:'300', paddingHorizontal:30}]}><AntDesign name="infocirlceo" size={12} color="black" /> Details entered hence forth will be mentioned in your card. You can edit it later in profile section</Text>
 
             {/* Input Fields */}
             <View style={[styles.inputContainer, { width: Platform.OS === 'ios' ? '80%' : 'auto'}]}>
@@ -121,7 +121,7 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
             </View>
 
             {/* Next Button */}
-            <View style={[{flexDirection:'row', justifyContent:'space-between'}]}>
+            <View style={[{flexDirection:'row', justifyContent:'space-between', paddingHorizontal:30}]}>
                 <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>BACK</Text>
                 </TouchableOpacity>

@@ -87,7 +87,7 @@ const AccountCreation = ({ navigation }: AccProps) => {
             </View>
 
             {/* Next Button */}
-            <View style={[{flexDirection:'row', justifyContent:'space-between'}]}>
+            <View style={[{flexDirection:'row', justifyContent:'space-between', paddingHorizontal:30}]}>
                 <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>CANCEL</Text>
                 </TouchableOpacity>

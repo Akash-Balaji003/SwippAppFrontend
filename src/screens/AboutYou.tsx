@@ -87,7 +87,7 @@ const AboutYou = ({ route, navigation }: AboutYouProps) => {
             </View>
 
             {/* Next Button */}
-            <View style={[{flexDirection:'row', justifyContent:'space-between'}]}>
+            <View style={[{flexDirection:'row', justifyContent:'space-between', paddingHorizontal:30}]}>
                 <TouchableOpacity style={[styles.buttonBack]} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>BACK</Text>
                 </TouchableOpacity>

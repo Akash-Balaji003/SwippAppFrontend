@@ -127,7 +127,7 @@ const UserProfile = ({ navigation }: NativeStackScreenProps<RootStackParamList, 
             <View style={styles.switchProfileSection}>
                 <View style={{flexDirection:"row", justifyContent:"space-between"}}>
                     <Text style={styles.label}>Switch profile</Text>
-                    <TouchableOpacity style={[styles.addButton, ]}>
+                    <TouchableOpacity style={[styles.addButton, ]} onPress={()=> navigation.navigate('NewProfile')}>
                         <Icon name="add" size={24} color="white" />
                     </TouchableOpacity>
                 </View>

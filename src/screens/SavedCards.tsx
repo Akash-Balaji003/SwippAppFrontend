@@ -79,6 +79,8 @@ const SavedCards = ({navigation}:SavedCardsProps) => {
                             Loading...
                         </Text>
                     </SafeAreaView>
+                ) : cards.length === 0 ? (
+                    <Text style={styles.emptyText}>No saved cards.</Text>
                 ) : (
                     <FlatList
                         data={cards}
@@ -88,6 +90,7 @@ const SavedCards = ({navigation}:SavedCardsProps) => {
                     />
                 )}
             </View>
+
 
             {/* Bottom Navigation */}
             <BottomNav navigation={navigation} />
@@ -104,7 +107,7 @@ const styles = StyleSheet.create({
     },
     searchBarContainer: {
         position: "absolute",
-        marginTop: calculatePercentage(11, height),
+        marginTop: calculatePercentage(16, height),
         width: "100%",
         zIndex:1,
         alignSelf:"center",
@@ -130,6 +133,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center',
         marginTop: 20,
+    },
+    emptyText: {
+        fontSize: 16,
+        color: "#aaa",
+        fontStyle: "italic",
+        textAlign:"center"
     },
     card: {
         backgroundColor: '#FFFFFF',

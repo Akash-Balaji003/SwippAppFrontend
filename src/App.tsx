@@ -21,6 +21,7 @@ import UserProfile from './screens/UserProfile';
 import FriendProfile from './screens/FriendProfile';
 import SavedCards from './screens/SavedCards';
 import CardView from './screens/CardView';
+import NewProfile from './screens/NewProfile';
 
 import { getProfileData } from './tasks/Storage';
 import { ActivityIndicator, View } from 'react-native';
@@ -77,6 +78,7 @@ export type RootStackParamList = {
     CardView: {
         card_id: number
     };
+    NewProfile: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -143,6 +145,7 @@ function App(): React.JSX.Element {
                         <Stack.Screen name='FriendProfile' component={FriendProfile} options={{ headerShown: false }} />
                         <Stack.Screen name='SavedCards' component={SavedCards} options={{ headerShown: false }} />
                         <Stack.Screen name='CardView' component={CardView} options={{ headerShown: false }} />
+                        <Stack.Screen name='NewProfile' component={NewProfile} options={{ headerShown: false }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </ProfileProvider>
