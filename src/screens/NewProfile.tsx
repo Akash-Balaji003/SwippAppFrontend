@@ -55,6 +55,7 @@ const NewProfile = ({ navigation }: NewProfileProps) => {
             Alert.alert("Validation Error", "All required fields must be filled. Please check and try again.");
             return;
         }
+        console.log("Trying...")
         try {
             const response = await fetch(`https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/new-profile?data=${userId}`, {
                 method: 'POST',
@@ -81,10 +82,20 @@ const NewProfile = ({ navigation }: NewProfileProps) => {
 
                 }),
             });
+            console.log("Response status:", response.status);
+            const data = await response.json();
+            console.log("Response data:", data);
+
 
             if (response.ok){
                 navigation.navigate("Home");
                 ToastAndroid.show('Card Stored Successfully', ToastAndroid.SHORT);
+            }
+            else {
+                Alert.alert("Error", `Server returned an error: ${response.status}`, [
+                    { text: "Details", onPress: () => Alert.alert("Error Details", JSON.stringify(data)) },
+                    { text: "OK" },
+                ]);
             }
         }
         catch (error) {

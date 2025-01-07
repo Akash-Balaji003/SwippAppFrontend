@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import {
+    Alert,
     Platform,
     SafeAreaView,
     StyleSheet,
@@ -46,7 +47,40 @@ const AccountCreation = ({ navigation }: AccProps) => {
     
         // Clear error message if validations pass
         setErrorMessage("");
-        navigateNext();
+        accountCheckNext();
+    };
+
+    const accountCheckNext = async () => {
+    
+        try {
+            // Make an API call to check if the phone number or email is already in use
+            const response = await fetch("https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/check-user", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ phone_number }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                // Backend returned success but also a message
+                if (data.message === "This number or email already has an account") {
+                    Alert.alert("Account Already Exists",data.message); // Alert the user about the account conflict
+                    return; // Stop execution to prevent navigation
+                }
+    
+                // Clear error and navigate to the next page if no account exists
+                setErrorMessage("");
+                navigateNext();
+            } else {
+                // Display the error message from the backend
+                setErrorMessage(data.detail || "An error occurred.");
+            }
+        } catch (error) {
+            setErrorMessage("Failed to connect to the server. Please try again later.");
+        }
     };
     
 

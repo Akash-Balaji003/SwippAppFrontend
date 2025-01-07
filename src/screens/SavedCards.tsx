@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     },
     searchBarContainer: {
         position: "absolute",
-        marginTop: calculatePercentage(16, height),
+        marginTop: calculatePercentage(11, height),
         width: "100%",
         zIndex:1,
         alignSelf:"center",

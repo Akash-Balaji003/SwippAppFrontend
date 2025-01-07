@@ -65,6 +65,7 @@ const AboutCompany = ({ route, navigation }: AboutCompanyProps) => {
         }
         catch (error) {
             setErrorMessage('Failed to connect to the server. Please try again later.');
+            console.log("Error : ", error)
             ToastAndroid.show('Failed to connect to the server. Please try again later.', ToastAndroid.SHORT);
         }
     };
