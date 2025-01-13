@@ -144,9 +144,9 @@ const Home = ({navigation}:HomeProps) => {
                     <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("ScanCard")}>
                         <View style={styles.CardTextHolder}>
                             <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
-                                <Text style={{color: "#0077B6"}}>CONNECT</Text> WITH OTHER PEOPLE
+                                <Text style={{color: "#0077B6"}}>SCAN</Text> A PHYSICAL CARD
                             </Text>
-                            <Text style={[styles.CardText, {paddingTop:3}]}>BUILD NEW CONNECTIONS AND EXPLORE OPPORTUNITIES</Text>
+                            <Text style={[styles.CardText, {paddingTop:3}]}>SCAN PHYSICAL CARDS AND STORE THEM</Text>
                         </View>
                         <View style={styles.CardImage}>
                             <Image 

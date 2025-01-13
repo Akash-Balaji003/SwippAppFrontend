@@ -218,7 +218,7 @@ const EditCard = ({ navigation }: EditCardProps) => {
             </View>
 
             {/* Address Section */}
-            <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
+            <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(3, height)}]}>
                 <Text style={styles.sectionTitle}>Address</Text>
                 <View style={[styles.Address1Container]}>
                     <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />

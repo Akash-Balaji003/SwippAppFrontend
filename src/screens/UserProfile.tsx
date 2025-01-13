@@ -63,6 +63,7 @@ const UserProfile = ({ navigation }: NativeStackScreenProps<RootStackParamList, 
     };
 
     const handleShare = async() => {
+        console.log("working... ", switchProfileTitles)
         setIsProfileModalVisible(true);
     };
 

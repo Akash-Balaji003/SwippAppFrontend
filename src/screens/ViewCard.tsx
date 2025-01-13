@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#F3FBFF",
         justifyContent: 'flex-start',
-        gap:50
+        gap:80
     },
     card: {
         width: '80%',
