@@ -100,175 +100,175 @@ const EditCard = ({ navigation }: EditCardProps) => {
 
             <ScrollView style={styles.container}>
 
-            {/* Profile Section */}
-            <View style={styles.sectionContainer}>
-                <View style={styles.profileSection}>
-                    <View style={styles.profileDetails}>
+                {/* Profile Section */}
+                <View style={styles.sectionContainer}>
+                    <View style={styles.profileSection}>
+                        <View style={styles.profileDetails}>
 
-                        {/* Name Input */}
-                        <Text style={styles.label}>NAME</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder={profile?.common_name}
-                            placeholderTextColor="#999"
-                            editable={false}
-                        />
-
-                        {/* Designation Input */}
-                        <Text style={styles.label}>DESIGNATION</Text>
-                        <TextInput
+                            {/* Name Input */}
+                            <Text style={styles.label}>NAME</Text>
+                            <TextInput
                                 style={styles.input}
-                                placeholder="Enter your designation"
+                                placeholder={profile?.common_name}
                                 placeholderTextColor="#999"
-                                value={user_designation || ''}
-                                onChangeText={setDesignation}
+                                editable={false}
                             />
-                    </View>
 
-                    {/* Profile Image Section */}
-                    <View style={styles.profileImageSection}>
-                        <Image
-                            source={{ uri: 'https://via.placeholder.com/100' }}
-                            style={styles.profileImage}
-                        />
-                        <TouchableOpacity style={styles.editImageButton} onPress={() => {
-                                        Alert.alert('Coming soon...');
-                                    }}>
-                            <Text style={styles.editImageText}>Edit Image</Text>
-                        </TouchableOpacity>
+                            {/* Designation Input */}
+                            <Text style={styles.label}>DESIGNATION</Text>
+                            <TextInput
+                                    style={styles.input}
+                                    placeholder="Enter your designation"
+                                    placeholderTextColor="#999"
+                                    value={user_designation || ''}
+                                    onChangeText={setDesignation}
+                                />
+                        </View>
+
+                        {/* Profile Image Section */}
+                        <View style={styles.profileImageSection}>
+                            <Image
+                                source={{ uri: 'https://via.placeholder.com/100' }}
+                                style={styles.profileImage}
+                            />
+                            <TouchableOpacity style={styles.editImageButton} onPress={() => {
+                                            Alert.alert('Coming soon...');
+                                        }}>
+                                <Text style={styles.editImageText}>Edit Image</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            </View>
 
-            {/* Qualifications & Entity Section */}
-            <View style={styles.sectionContainer}>          
-                <Text style={styles.label}>QUALIFICATIONS</Text>
-                <TextInput
-                        style={styles.input}
-                        placeholder="Enter your qualifications"
-                        placeholderTextColor="#999"
-                        value={user_qualification || ''}
-                        onChangeText={setQualification}
-                    />
-
-                    <Text style={styles.label}>COMPANY NAME</Text>
+                {/* Qualifications & Entity Section */}
+                <View style={styles.sectionContainer}>          
+                    <Text style={styles.label}>QUALIFICATIONS</Text>
                     <TextInput
-                        style={styles.input}
-                        placeholder="Enter your company name"
-                        placeholderTextColor="#999"
-                        value={companyName || ''}
-                        onChangeText={setCompanyName}
-                    />
-            </View>
-
-            {/* Contact Details Section */}
-            <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Contact Details</Text>
-
-                {/* Primary Phone */}
-                <View style={styles.iconInputContainer}>
-                    <Icon name="phone" size={calculatePercentage(5, width)} color="#333" />
-                    <TextInput
-                            style={styles.iconInput}
-                            placeholder="Enter primary phone"
+                            style={styles.input}
+                            placeholder="Enter your qualifications"
                             placeholderTextColor="#999"
-                            value={primaryPhone || ''}
-                            onChangeText={setPrimaryPhone}
+                            value={user_qualification || ''}
+                            onChangeText={setQualification}
                         />
-                    </View>
 
+                        <Text style={styles.label}>COMPANY NAME</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter your company name"
+                            placeholderTextColor="#999"
+                            value={companyName || ''}
+                            onChangeText={setCompanyName}
+                        />
+                </View>
+
+                {/* Contact Details Section */}
+                <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Contact Details</Text>
+
+                    {/* Primary Phone */}
                     <View style={styles.iconInputContainer}>
                         <Icon name="phone" size={calculatePercentage(5, width)} color="#333" />
                         <TextInput
-                            style={styles.iconInput}
-                            placeholder="Enter secondary phone"
-                            placeholderTextColor="#999"
-                            value={secondaryPhone || ''}
-                            onChangeText={setSecondaryPhone}
-                        />
-                </View>
-            </View>
+                                style={styles.iconInput}
+                                placeholder="Enter primary phone"
+                                placeholderTextColor="#999"
+                                value={primaryPhone || ''}
+                                onChangeText={setPrimaryPhone}
+                            />
+                        </View>
 
-            {/* Mail Details Section */}
-            <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Mail Details</Text>
-
-                {/* Primary Email */}
-                <View style={styles.iconInputContainer}>
-                    <Icon name="email" size={calculatePercentage(5, width)} color="#333" />
-                    <TextInput
-                            style={styles.iconInput}
-                            placeholder="Enter primary email"
-                            placeholderTextColor="#999"
-                            value={primary_email || ''}
-                            onChangeText={setEmail1}
-                        />
+                        <View style={styles.iconInputContainer}>
+                            <Icon name="phone" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={styles.iconInput}
+                                placeholder="Enter secondary phone"
+                                placeholderTextColor="#999"
+                                value={secondaryPhone || ''}
+                                onChangeText={setSecondaryPhone}
+                            />
                     </View>
+                </View>
 
+                {/* Mail Details Section */}
+                <View style={styles.sectionContainer}>
+                    <Text style={styles.sectionTitle}>Mail Details</Text>
+
+                    {/* Primary Email */}
                     <View style={styles.iconInputContainer}>
                         <Icon name="email" size={calculatePercentage(5, width)} color="#333" />
                         <TextInput
-                            style={styles.iconInput}
-                            placeholder="Enter secondary email"
-                            placeholderTextColor="#999"
-                            value={secondary_email || ''}
-                            onChangeText={setEmail2}
-                        />
-                </View>
-            </View>
+                                style={styles.iconInput}
+                                placeholder="Enter primary email"
+                                placeholderTextColor="#999"
+                                value={primary_email || ''}
+                                onChangeText={setEmail1}
+                            />
+                        </View>
 
-            {/* Address Section */}
-            <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(3, height)}]}>
-                <Text style={styles.sectionTitle}>Address</Text>
-                <View style={[styles.Address1Container]}>
-                    <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
-                    <TextInput
-                            style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter your address"
-                            placeholderTextColor="#999"
-                            multiline
-                            value={address || ''}
-                            onChangeText={setAddress1}
-                        />
+                        <View style={styles.iconInputContainer}>
+                            <Icon name="email" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={styles.iconInput}
+                                placeholder="Enter secondary email"
+                                placeholderTextColor="#999"
+                                value={secondary_email || ''}
+                                onChangeText={setEmail2}
+                            />
+                    </View>
                 </View>
-                <View style={{flexDirection:"row", gap:'20%'}}>
-                    <View style={styles.CityContainer}>
+
+                {/* Address Section */}
+                <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
+                    <Text style={styles.sectionTitle}>Address</Text>
+                    <View style={[styles.Address1Container]}>
+                        <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                        <TextInput
+                                style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                                placeholder="Enter your address"
+                                placeholderTextColor="#999"
+                                multiline
+                                value={address || ''}
+                                onChangeText={setAddress1}
+                            />
+                    </View>
+                    <View style={{flexDirection:"row", gap:'20%'}}>
+                        <View style={styles.CityContainer}>
+                            <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                                placeholder="Enter your city"
+                                placeholderTextColor="#999"
+                                value={city || ''}
+                                onChangeText={setCity}
+                            />
+                        </View>
+                        <View style={styles.CityContainer}>
+                            <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
+                            <TextInput
+                                style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
+                                placeholder="Enter your pincode"
+                                placeholderTextColor="#999"
+                                value={pincode || ''}
+                                onChangeText={setPincode}
+                            />
+                        </View>
+                    </View>
+                    <View style={[styles.CountryContainer]}>
                         <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
                         <TextInput
                             style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter your city"
+                            placeholder="Enter your country"
                             placeholderTextColor="#999"
-                            value={city || ''}
-                            onChangeText={setCity}
+                            value={country || ''}
+                            onChangeText={setCountry}
                         />
                     </View>
-                    <View style={styles.CityContainer}>
-                        <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
-                        <TextInput
-                            style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                            placeholder="Enter your pincode"
-                            placeholderTextColor="#999"
-                            value={pincode || ''}
-                            onChangeText={setPincode}
-                        />
-                    </View>
+                    
                 </View>
-                <View style={[styles.CountryContainer]}>
-                    <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
-                    <TextInput
-                        style={[styles.iconInput, { height: calculatePercentage(10, height) }]}
-                        placeholder="Enter your country"
-                        placeholderTextColor="#999"
-                        value={country || ''}
-                        onChangeText={setCountry}
-                    />
-                </View>
-                
-            </View>
 
-        </ScrollView>
-        <BottomNav navigation={navigation} />
-    </SafeAreaView>
+            </ScrollView>
+            <BottomNav navigation={navigation} />
+        </SafeAreaView>
     );
 };
 

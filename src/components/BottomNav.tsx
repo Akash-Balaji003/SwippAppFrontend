@@ -81,7 +81,7 @@ const BottomNav = ({navigation}:BottomNavProps) => {
         }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
 
             <View style={styles.BottomNav}>
                 <TouchableOpacity style={styles.NavButton} onPress={() => navigation.navigate("Home")}>
@@ -160,7 +160,7 @@ const BottomNav = ({navigation}:BottomNavProps) => {
                     </View>
                 </View>
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -176,11 +176,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#FFFFFF',
         height: 60,
+        borderTopColor: '#ccc',
     },
 
     container: {
-        flex:0.1,
-        backgroundColor:"pink"
+        backgroundColor:"pink",
     },
 
     NavButton: {

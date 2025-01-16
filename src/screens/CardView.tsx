@@ -66,9 +66,9 @@ const CardView = ({navigation, route}: CardViewProps) => {
 
     if (!cardData) {
             return (
-                <SafeAreaView style={[{ justifyContent: 'center', flex: 1, padding: 10, backgroundColor: '#2B2B2B' }]}>
-                    <ActivityIndicator size="large" color="#ffffff" />
-                    <Text style={{ color: "white", textAlign: 'center', marginTop: 10 }}>
+                <SafeAreaView style={[{ justifyContent: 'center', flex: 1, padding: 10, backgroundColor: '#F3FBFF' }]}>
+                    <ActivityIndicator size="large" color="blue" />
+                    <Text style={{ color: "black", textAlign: 'center', marginTop: 10 }}>
                         Loading...
                     </Text>
                 </SafeAreaView>
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 10,
         elevation: 4,
+        marginBottom:'15%'
     },
     header: {
         flexDirection: 'row',

@@ -9,7 +9,13 @@
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
-
+    <queries>
+        <!-- Allow querying for WhatsApp -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="whatsapp" />
+        </intent>
+    </queries>
 
     <application
       android:name=".MainApplication"

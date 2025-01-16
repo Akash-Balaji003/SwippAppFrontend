@@ -42,53 +42,54 @@ const ViewCard = ({navigation}: ViewCardProps) => {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={{ color: 'black', alignSelf:'center', marginTop:'5%', fontSize:32 }}>{profile?.profile_title}</Text>
+
             <View style={styles.card}>
-            <View style={styles.header}>
-                    <View style={styles.imageContainer}>
-                        <View style={styles.userImage} />
-                        <Text style={styles.imageText}>userImage</Text>
-                    </View>
-                    <View style={styles.logoContainer}>
-                        <Text style={styles.logoText}>logo</Text>
-                    </View>
-                </View>
-
-                {/* Info Section */}
-                <View style={styles.infoSection}>
-                    <Text style={styles.name}>{profile?.common_name}</Text>
-                    <Text style={styles.qualification}>{profile?.qualification}</Text>
-                    <Text style={styles.designation}>{profile?.designation}</Text>
-                    <Text style={styles.entityName}>{profile?.company_name}</Text>
-
-                    {/* Contact Information */}
-                    <View style={styles.contactContainer}>
-                        <Text style={styles.entityName}>{profile?.primary_phone}</Text>
-                        <Text style={styles.entityName}>{profile?.email1}</Text>
-                        <Text style={styles.entityName}>{profile?.secondary_phone}</Text>
-                        <Text style={styles.entityName}>{profile?.email2}</Text>
+                <View style={styles.header}>
+                        <View style={styles.imageContainer}>
+                            <View style={styles.userImage} />
+                            <Text style={styles.imageText}>userImage</Text>
+                        </View>
+                        <View style={styles.logoContainer}>
+                            <Text style={styles.logoText}>logo</Text>
+                        </View>
                     </View>
 
-                    {/* Address Section */}
-                    <View style={styles.addressContainer}>
-                        <Text style={styles.entityName}>{profile?.address1}</Text>
-                        <Text style={styles.entityName}>{profile?.city} | {profile?.pincode} | {profile?.country}</Text>
+                    {/* Info Section */}
+                    <View style={styles.infoSection}>
+                        <Text style={styles.name}>{profile?.common_name}</Text>
+                        <Text style={styles.qualification}>{profile?.qualification}</Text>
+                        <Text style={styles.designation}>{profile?.designation}</Text>
+                        <Text style={styles.entityName}>{profile?.company_name}</Text>
+
+                        {/* Contact Information */}
+                        <View style={styles.contactContainer}>
+                            <Text style={styles.entityName}>{profile?.primary_phone}</Text>
+                            <Text style={styles.entityName}>{profile?.email1}</Text>
+                            <Text style={styles.entityName}>{profile?.secondary_phone}</Text>
+                            <Text style={styles.entityName}>{profile?.email2}</Text>
+                        </View>
+
+                        {/* Address Section */}
+                        <View style={styles.addressContainer}>
+                            <Text style={styles.entityName}>{profile?.address1}</Text>
+                            <Text style={styles.entityName}>{profile?.city} | {profile?.pincode} | {profile?.country}</Text>
+                        </View>
                     </View>
-                </View>
-                
-                <View style={{flexDirection: 'row', justifyContent: 'center', margin: 5, height:'8%'}}>
-                    <TouchableOpacity
-                        style={styles.editImageButton}
-                        onPress={() => {
-                            if (profile?.profile_id !== undefined) {
-                                getQR(profile.profile_id);
-                            } else {
-                                Alert.alert('Error', 'Profile ID is missing.');
-                            }
-                        }}
-                    >
-                        <Text style={styles.buttonText}>SHARE</Text>
-                    </TouchableOpacity>
-                </View>
+                    
+                    <View style={{flexDirection: 'row', justifyContent: 'center', margin: 5, height:'8%'}}>
+                        <TouchableOpacity
+                            style={styles.editImageButton}
+                            onPress={() => {
+                                if (profile?.profile_id !== undefined) {
+                                    getQR(profile.profile_id);
+                                } else {
+                                    Alert.alert('Error', 'Profile ID is missing.');
+                                }
+                            }}
+                        >
+                            <Text style={styles.buttonText}>SHARE</Text>
+                        </TouchableOpacity>
+                    </View>
             </View>
 
             {/* Modal for QR Code */}
@@ -129,9 +130,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#F3FBFF",
         justifyContent: 'flex-start',
-        gap:80
+        gap:40
     },
     card: {
+        flex:1,
         width: '80%',
         height: '70%',
         alignSelf: 'center',
@@ -140,6 +142,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 10,
         elevation: 4,
+        marginBottom:"20%"
     },
     header: {
         flexDirection: 'row',

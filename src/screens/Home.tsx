@@ -87,75 +87,79 @@ const Home = ({navigation}:HomeProps) => {
                     <Text>Advertisements</Text>
                 </View>
 
-                <View style={styles.CardsHolder}>
+                <View>
 
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("EditCard")}>
-                        <View style={styles.CardTextHolder}>
-                            <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
-                                <Text style={{color: "#0077B6"}}>EDIT</Text> YOUR CARD
-                            </Text>
-                            <Text style={[styles.CardText, {paddingTop:3}]}>CHANGE AND CUSTOMISE THE CARD TO YOUR PREFERENCE</Text>
-                        </View>
-                        <View style={styles.CardImage}>
-                            <Image 
-                                source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/cardview.png')}  // Add your image source here
-                                style={styles.ImageStyle}
-                                resizeMode="contain" 
-                            />
-                        </View>
-                    </TouchableOpacity>
+                    <View style={styles.CardsHolder}>
 
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("SavedCards")}>
-                        <View style={styles.CardTextHolder}>
-                            <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
-                                <Text style={{color: "#0077B6"}}>CARDS</Text> STORAGE
-                            </Text>
-                            <Text style={[styles.CardText, {paddingTop:3}]}>VIEW ALL OF YOUR SAVED CARDS</Text>
-                        </View>
-                        <View style={styles.CardImage}>
-                            <Image 
-                                source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/handshake.jpg')}  // Add your image source here
-                                style={styles.ImageStyle}
-                                resizeMode="contain" 
-                            />
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("EditCard")}>
+                            <View style={styles.CardTextHolder}>
+                                <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
+                                    <Text style={{color: "#0077B6"}}>EDIT</Text> YOUR CARD
+                                </Text>
+                                <Text style={[styles.CardText, {paddingTop:3}]}>CHANGE AND CUSTOMISE THE CARD TO YOUR PREFERENCE</Text>
+                            </View>
+                            <View style={styles.CardImage}>
+                                <Image 
+                                    source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/cardview.png')}  // Add your image source here
+                                    style={styles.ImageStyle}
+                                    resizeMode="contain" 
+                                />
+                            </View>
+                        </TouchableOpacity>
 
-                </View>
+                        <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("SavedCards")}>
+                            <View style={styles.CardTextHolder}>
+                                <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
+                                    <Text style={{color: "#0077B6"}}>CARDS</Text> STORAGE
+                                </Text>
+                                <Text style={[styles.CardText, {paddingTop:3}]}>VIEW ALL OF YOUR SAVED CARDS</Text>
+                            </View>
+                            <View style={styles.CardImage}>
+                                <Image 
+                                    source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/handshake.jpg')}  // Add your image source here
+                                    style={styles.ImageStyle}
+                                    resizeMode="contain" 
+                                />
+                            </View>
+                        </TouchableOpacity>
 
-                <View style={styles.CardsHolder}>
+                    </View>
 
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("ViewCard")}>
-                        <View style={styles.CardTextHolder}>
-                            <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
-                                <Text style={{color: "#0077B6"}}>VIEW</Text> YOUR CARD
-                            </Text>
-                            <Text style={[styles.CardText, {paddingTop:3}]}>CHECK AND REVIEW YOUR CARD DETAILS AT A GLANCE</Text>
-                        </View>
-                        <View style={styles.CardImage}>
-                            <Image 
-                                source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/cardview.png')}  // Add your image source here
-                                style={styles.ImageStyle}
-                                resizeMode="contain" 
-                            />
-                        </View>
-                    </TouchableOpacity>
+                    <View style={[styles.CardsHolder]}>
 
-                    <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("ScanCard")}>
-                        <View style={styles.CardTextHolder}>
-                            <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
-                                <Text style={{color: "#0077B6"}}>SCAN</Text> A PHYSICAL CARD
-                            </Text>
-                            <Text style={[styles.CardText, {paddingTop:3}]}>SCAN PHYSICAL CARDS AND STORE THEM</Text>
-                        </View>
-                        <View style={styles.CardImage}>
-                            <Image 
-                                source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/handshake.jpg')}  // Add your image source here
-                                style={styles.ImageStyle}
-                                resizeMode="contain" 
-                            />
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("ViewCard")}>
+                            <View style={styles.CardTextHolder}>
+                                <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
+                                    <Text style={{color: "#0077B6"}}>VIEW</Text> YOUR CARD
+                                </Text>
+                                <Text style={[styles.CardText, {paddingTop:3}]}>CHECK AND REVIEW YOUR CARD DETAILS AT A GLANCE</Text>
+                            </View>
+                            <View style={styles.CardImage}>
+                                <Image 
+                                    source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/cardview.png')}  // Add your image source here
+                                    style={styles.ImageStyle}
+                                    resizeMode="contain" 
+                                />
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.Card} onPress={() => navigation.navigate("ScanCard")}>
+                            <View style={styles.CardTextHolder}>
+                                <Text style={[styles.CardText, {fontSize: 14, fontWeight: 'bold'}]}>
+                                    <Text style={{color: "#0077B6"}}>SCAN</Text> A PHYSICAL CARD
+                                </Text>
+                                <Text style={[styles.CardText, {paddingTop:3}]}>SCAN PHYSICAL CARDS AND STORE THEM</Text>
+                            </View>
+                            <View style={styles.CardImage}>
+                                <Image 
+                                    source={require('/Users/akashbalaji/SwipeApp/frontend/src/images/handshake.jpg')}  // Add your image source here
+                                    style={styles.ImageStyle}
+                                    resizeMode="contain" 
+                                />
+                            </View>
+                        </TouchableOpacity>
+
+                    </View>
 
                 </View>
             </View>
@@ -212,13 +216,13 @@ const styles = StyleSheet.create({
     },
 
     content: {
-        flex: 0.9,
+        flex: 1,
         paddingHorizontal: 10,
-        paddingTop: 5,
+        paddingTop: 10,
         paddingBottom: 20, // Add some bottom padding
         justifyContent: 'space-around',
-        marginTop: calculatePercentage(8, height),
-        marginBottom: 10, // Add space below the content
+        marginTop: calculatePercentage(6, height),
+        marginBottom: calculatePercentage(5, height),
     },
 
     AdPlaceholder: {
@@ -226,13 +230,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'grey',
         borderRadius: 15,
-        marginTop: '1%',
         paddingVertical: '8%',
         elevation: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.25,
         shadowRadius: 3,
+        marginTop:"2%"
     },
 
     CardsHolder: {
@@ -240,7 +244,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         flexWrap: "wrap",
         paddingTop: 5,
-        marginVertical: 5, // Add some vertical margin between the card holders
+        marginVertical: 2, // Add some vertical margin between the card holders
     },
     
     Card: {

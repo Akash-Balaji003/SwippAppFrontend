@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, ToastAndroid, ActivityIndicator, Alert } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, ToastAndroid, ActivityIndicator, Alert, Linking } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
@@ -34,6 +34,7 @@ const FriendProfile = ({navigation, route}: HomeProps) => {
     const { friend_id, remarks } = route.params;
 
     const [friendData, setFriendData] = useState<ProfileData>();
+    const [countryCode, setCountryCode] = useState("00");
 
     const selectProfile = async (id: number) => {
         try {
@@ -54,17 +55,31 @@ const FriendProfile = ({navigation, route}: HomeProps) => {
         selectProfile(friend_id)
 
     },[])
+    
 
     if (!friendData) {
         return (
-            <SafeAreaView style={[{ justifyContent: 'center', flex: 1, padding: 10, backgroundColor: '#2B2B2B' }]}>
-                <ActivityIndicator size="large" color="#ffffff" />
-                <Text style={{ color: "white", textAlign: 'center', marginTop: 10 }}>
+            <SafeAreaView style={[{ justifyContent: 'center', flex: 1, padding: 10, backgroundColor: '#F3FBFF' }]}>
+                <ActivityIndicator size="large" color="blue" />
+                <Text style={{ color: "black", textAlign: 'center', marginTop: 10 }}>
                     Loading...
                 </Text>
             </SafeAreaView>
         );
     }
+
+    const openWhatsApp = (phoneNumber: string) => {
+        const url = `whatsapp://send?phone=91${phoneNumber}`;
+    
+        Linking.openURL(url)
+          .then(() => {
+            console.log('WhatsApp opened');
+          })
+          .catch((err) => {
+            console.error('Error opening WhatsApp: ', err);
+            Alert.alert('Error', 'WhatsApp is not installed on this device.');
+        });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -92,8 +107,16 @@ const FriendProfile = ({navigation, route}: HomeProps) => {
 
                     {/* Contact Information */}
                     <View style={styles.contactContainer}>
-                        <Text style={styles.entityName}>{friendData.primary_phone}</Text>
-                        <Text style={styles.entityName}>{friendData.secondary_phone || "No secondary phone number"}</Text>
+                        <TouchableOpacity onPress={() => openWhatsApp(friendData.primary_phone)}>
+                            <Text style={[styles.entityName, { color: 'blue', textDecorationLine: 'underline' }]}>
+                                {friendData.primary_phone}
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => openWhatsApp(friendData.secondary_phone || friendData.primary_phone)}>
+                            <Text style={[styles.entityName, { color: 'blue', textDecorationLine: 'underline' }]}>
+                                {friendData.secondary_phone || "No secondary phone"}
+                            </Text>
+                        </TouchableOpacity>
                         <Text style={styles.entityName}>{friendData.email1}</Text>
                         <Text style={styles.entityName}>{friendData.email2 || "No secondary email"}</Text>
                     </View>
@@ -120,6 +143,7 @@ const styles = StyleSheet.create({
         gap:40
     },
     card: {
+        flex:1,
         width: '80%',
         height: '70%',
         alignSelf: 'center',
@@ -128,6 +152,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         padding: 10,
         elevation: 4,
+        marginBottom:"15%"
     },
     header: {
         flexDirection: 'row',

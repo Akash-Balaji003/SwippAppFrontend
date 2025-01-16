@@ -64,7 +64,7 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
 
     const handleAddFriend = () => {
         if (userInfo && profile) {
-            const url = `https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks}`;
+            const url = `https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks || "NULL"}`;
             fetch(url)
                 .then((response) => {
                     if (!response.ok) {
@@ -84,40 +84,14 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
     
 
     return (
-        <SafeAreaView style={styles.container}>
-
-            {/* Modal for remarks */}
-            <Modal visible={isModalVisible} animationType="slide" transparent>
-                <View style={styles2.modalContainer}>
-                    <View style={styles2.modalContent}>
-                        <Text style={styles2.modalTitle}>Add Remarks</Text>
-                        <TextInput
-                            style={styles2.remarksInput}
-                            placeholder="Enter your remarks"
-                            value={remarks}
-                            onChangeText={setRemarks}
-                        />
-                        <TouchableOpacity
-                            style={styles2.submitButton}
-                            onPress={handleAddFriend}
-                        >
-                            <Text style={styles2.submitButtonText}>Submit</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </Modal>
+        <SafeAreaView style={styles.safeArea}>
 
             {/* Header */}
             <View style={[styles.header]}>
-                <View>
-                    <Text style={styles.label}>TITLE</Text>
-                    <TextInput
-                        style={[styles.input,{ width: calculatePercentage(60, width)}]}
-                        placeholderTextColor="#999"
-                        value={ userInfo?.profileTitle || "NULL"}
-                        editable={false}
-                    />
-                </View>
+                <Text style={{ color: 'black', alignSelf:'center', marginBottom:'5%', fontSize:28 }}>Saved Cards</Text>
+                <TouchableOpacity style={styles.doneButton} onPress={handleAddFriend}>
+                    <Text style={styles.doneButtonText}>Save</Text>
+                </TouchableOpacity>
             </View>
 
             <ScrollView style={styles.container}>
@@ -220,7 +194,7 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
                 </View>
 
                 {/* Address Section */}
-                <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(10, height)}]}>
+                <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(5, height)}]}>
                     <Text style={styles.sectionTitle}>Address</Text>
                     <View style={[styles.Address1Container]}>
                         <Icon name="location-on" size={calculatePercentage(5, width)} color="#333" />
@@ -264,6 +238,23 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
                     
                 </View>
 
+                {/* Remarks Section */}
+                <View style={[styles.sectionContainer,{marginBottom: calculatePercentage(5, height)}]}>
+                    <Text style={styles.sectionTitle}>Remarks</Text>
+    
+                    {/* Primary Email */}
+                    <View style={styles.iconInputContainer}>
+                        <Icon name="edit" size={calculatePercentage(5, width)} color="#333" />
+                        <TextInput
+                            style={styles.iconInput}
+                            placeholder="Enter your remarks"
+                            placeholderTextColor="#999"
+                            value={remarks}
+                            onChangeText={setRemarks}
+                        />
+                    </View>
+                </View>
+
             </ScrollView>
             {/* Bottom Navigation */}
             <BottomNav navigation={navigation} />
@@ -278,7 +269,8 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
-      paddingHorizontal: '2%',
+      paddingHorizontal: '4%',
+      marginBottom:'15%'
     },
     header: {
       flexDirection: 'row',
