@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
+    Alert,
     Dimensions,
-    Image,
-    Modal,
-    Platform,
+
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -13,12 +12,16 @@ import {
     View,
 } from 'react-native';
 
+import Geolocation from 'react-native-geolocation-service';
+import { request, PERMISSIONS } from 'react-native-permissions';
+
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BottomNav from '../components/BottomNav';
 import { useProfile } from '../contexts/ProfileContext';
+import { getLocation } from '../components/LocationFetcher';
 
 interface UserInfo {
     userId: number;
@@ -45,6 +48,8 @@ type QRCodeResultProps = NativeStackScreenProps<RootStackParamList, 'QRCodeResul
 
 const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
 
+    const [location, setLocation] = useState<string>('');
+
     const {QRResult} = route.params;
     const { profile } = useProfile();
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -52,19 +57,23 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
     const [remarks, setRemarks] = useState<string>('');
 
     useEffect(() => {
-        // Assuming QRResult is a JSON string
         const data = typeof QRResult === 'string' ? JSON.parse(QRResult) : QRResult;
         setUserInfo(data);
-    }, [QRResult]); // Depend on QRResult to update when it changes
-
-    useEffect(() => {
-        const data = typeof QRResult === 'string' ? JSON.parse(QRResult) : QRResult;
-        setUserInfo(data);
+        fetchLocation();
     }, [QRResult]);
 
+    const fetchLocation = async () => {
+        try {
+          const loc = await getLocation();
+          setLocation(loc.placeName);
+        } catch (error: any) {
+          Alert.alert('Error', error.message);
+        }
+    };
+
     const handleAddFriend = () => {
-        if (userInfo && profile) {
-            const url = `https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks || "NULL"}`;
+        if (userInfo && profile && location) {
+            const url = `https://digicard-backend-deg0gdhzbjamacad.southeastasia-01.azurewebsites.net/add-friend?data1=${profile.profile_id}&data2=${userInfo.profile_id}&remarks=${remarks || "NULL"}&location=${location}`;
             fetch(url)
                 .then((response) => {
                     if (!response.ok) {
@@ -88,9 +97,9 @@ const QRCodeResult = ({route, navigation}:QRCodeResultProps) => {
 
             {/* Header */}
             <View style={[styles.header]}>
-                <Text style={{ color: 'black', alignSelf:'center', marginBottom:'5%', fontSize:28 }}>Saved Cards</Text>
+                <Text style={{ color: 'black', alignSelf:'center', marginBottom:'5%', fontSize:28 }} onPress={fetchLocation}>{userInfo?.common_name || "Friend"}'s Card</Text>
                 <TouchableOpacity style={styles.doneButton} onPress={handleAddFriend}>
-                    <Text style={styles.doneButtonText}>Save</Text>
+                    <Text style={styles.doneButtonText}>Add</Text>
                 </TouchableOpacity>
             </View>
 
