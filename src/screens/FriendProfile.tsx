@@ -34,7 +34,6 @@ const FriendProfile = ({navigation, route}: HomeProps) => {
     const { friend_id, remarks } = route.params;
 
     const [friendData, setFriendData] = useState<ProfileData>();
-    const [countryCode, setCountryCode] = useState("00");
 
     const selectProfile = async (id: number) => {
         try {
@@ -235,21 +234,6 @@ const styles = StyleSheet.create({
         color: '#3A86FF',
         textDecorationLine: 'underline',
     },
-    editImageButton: {
-        marginTop: '2%',
-        backgroundColor: '#007BFF',
-        borderRadius: 8,
-        height:"90%",
-        width: "50%",
-        alignContent:'center'
-      },
-      editImageText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        textAlign:'center',
-        alignSelf:'center',
-        alignContent:'center'
-      },
 });
 
 export default FriendProfile

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
     Alert,
     Dimensions,
-
     SafeAreaView,
     ScrollView,
     StyleSheet,
@@ -11,9 +10,6 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-
-import Geolocation from 'react-native-geolocation-service';
-import { request, PERMISSIONS } from 'react-native-permissions';
 
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
@@ -337,17 +333,6 @@ const styles = StyleSheet.create({
       borderRadius: calculatePercentage(50, width),
       backgroundColor: '#ddd',
     },
-    editImageButton: {
-      marginTop: calculatePercentage(3, height),
-      backgroundColor: '#007BFF',
-      borderRadius: 8,
-      paddingVertical: calculatePercentage(1, height),
-      paddingHorizontal: calculatePercentage(4, width),
-    },
-    editImageText: {
-      color: '#fff',
-      fontWeight: 'bold',
-    },
     label: {
       fontSize: calculatePercentage(3.5, width),
       fontWeight: 'bold',
@@ -412,46 +397,6 @@ const styles = StyleSheet.create({
       marginLeft: calculatePercentage(3, width),
       fontSize: calculatePercentage(3.5, width),
       color: '#333',
-    },
-});
-
-const styles2 = StyleSheet.create({
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: '#FFF',
-        padding: 20,
-        borderRadius: 10,
-        width: '80%',
-        alignItems: 'center',
-    },
-    modalTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color:"black"
-    },
-    remarksInput: {
-        width: '100%',
-        borderWidth: 1,
-        borderColor: '#CCC',
-        borderRadius: 5,
-        padding: 10,
-        marginBottom: 15,
-        color:"black"
-    },
-    submitButton: {
-        backgroundColor: '#007BFF',
-        padding: 10,
-        borderRadius: 5,
-    },
-    submitButtonText: {
-        color: '#FFF',
-        fontSize: 16,
     },
 });
 
