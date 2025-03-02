@@ -28,12 +28,6 @@ const { width, height } = Dimensions.get("window");
 // Helper function for percentage calculation
 const calculatePercentage = (percentage: number, dimension: number) => (percentage / 100) * dimension;
 
-interface Friend {
-    friend_profile_id: string;
-    common_name: string;
-    profile_title: string;
-}
-
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'> 
 
 const Home = ({navigation}:HomeProps) => {

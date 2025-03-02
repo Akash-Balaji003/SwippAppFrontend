@@ -71,8 +71,9 @@ export type RootStackParamList = {
     UserProfile: undefined;
     SearchBar: undefined;
     FriendProfile: {
-        friend_id: number,
-        remarks: string
+        friend_id: number;
+        remarks: string;
+        location: string;
     };
     SavedCards: undefined;
     CardView: {

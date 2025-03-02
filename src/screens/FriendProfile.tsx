@@ -31,7 +31,7 @@ type ProfileData = {
 type HomeProps = NativeStackScreenProps<RootStackParamList, 'FriendProfile'> 
 
 const FriendProfile = ({navigation, route}: HomeProps) => {
-    const { friend_id, remarks } = route.params;
+    const { friend_id, remarks, location } = route.params;
 
     const [friendData, setFriendData] = useState<ProfileData>();
 
@@ -84,7 +84,8 @@ const FriendProfile = ({navigation, route}: HomeProps) => {
         <SafeAreaView style={styles.container}>
             <View>
                 <Text style={{ color: 'black', alignSelf:'center', marginTop:'4%', fontSize:32 }}>{friendData.profile_title}</Text>
-                <Text style={{ color: 'black', alignSelf:'center', marginTop:'2%', fontSize:18 }}>Remarks: {remarks}</Text>
+                <Text style={{ color: 'black', alignSelf:'center', marginTop:'2%', fontSize:18 }}><Text style={{fontWeight: 'bold'}}>Remarks: </Text>{remarks}</Text>
+                <Text style={{ color: 'black', alignSelf:'center', marginTop:'2%', fontSize:18 }}><Text style={{fontWeight: 'bold'}}>Location: </Text>{location}</Text>
             </View>
             <View style={styles.card}>
                 <View style={styles.header}>

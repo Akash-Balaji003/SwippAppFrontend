@@ -10,6 +10,7 @@ interface User {
     profile_title: string;
     common_name: string;
     remarks: string;
+    location: string;
 }
 
 interface Card {
@@ -44,14 +45,15 @@ export const SearchUser = ({navigation}: SearchProps) => {
     }, [searchQuery, profile?.profile_id]);
     
 
-    const handleUserClick = (friend_profile_id: number, remarks: string) => {
+    const handleUserClick = (friend_profile_id: number, remarks: string, location: string) => {
 
         // Go to Friend Profile screen
         setSearchQuery('');
         setUsers([]);
         navigation.navigate("FriendProfile", {
             friend_id: friend_profile_id,
-            remarks: remarks
+            remarks: remarks,
+            location: location
         });
 
     };
@@ -69,7 +71,7 @@ export const SearchUser = ({navigation}: SearchProps) => {
                 data={users}
                 keyExtractor={(item) => item.friend_profile_id.toString()}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => handleUserClick(item.friend_profile_id, item.remarks)} style={styles.card}>
+                    <TouchableOpacity onPress={() => handleUserClick(item.friend_profile_id, item.remarks, item.location)} style={styles.card}>
                         <Text style={styles.username}>{item.common_name}</Text>
                         <Text style={styles.profileTitle}>{item.profile_title}</Text>
                         <Text style={styles.remarks}>{item.remarks}</Text>
